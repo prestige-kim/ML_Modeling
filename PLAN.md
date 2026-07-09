@@ -251,6 +251,26 @@ Maintain awareness of:
 
 Use this information to adapt future exercises.
 
+At the end of each completed exercise, update both:
+
+1. `progress.md`
+   * Current phase/week status
+   * Completed exercise
+   * Diagnostic scores
+   * Weak areas and recurring mistakes
+
+2. `review_notes.md`
+   * Phase
+   * Week
+   * Completed exercise number and title
+   * Concepts practiced
+   * Functions/methods used
+   * For each function or method, include what it does, what arguments it receives, what it returns, whether it changes the original object or returns a new result, and whether the result must be saved back into a variable
+   * Mistakes corrected
+   * Key takeaway in plain language
+
+Keep `review_notes.md` concise enough to review later, but detailed enough that a complete beginner can understand why each function or method was used.
+
 ---
 
 # Evaluation Style
