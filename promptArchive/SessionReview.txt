@@ -2,7 +2,14 @@ Review my work according to PLAN.md.
 
 Do not immediately give me the answer.
 
-Review:
+IMPORTANT:
+
+Review both:
+
+1. week1_2.ipynb << 숫자 수정하기
+2. week1_2.txt << 숫자 수정하기
+
+also Review:
 
 1. Correctness
 2. Modeling Logic
