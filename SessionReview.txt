@@ -1,0 +1,19 @@
+Review my work according to PLAN.md.
+
+Do not immediately give me the answer.
+
+Review:
+
+1. Correctness
+2. Modeling Logic
+3. Data Leakage Risk
+4. Evaluation Quality
+5. Possible Improvements
+
+Use:
+
+Hint → Guidance → Partial Solution
+
+Only provide a full solution if explicitly requested.
+
+Here is my work:
