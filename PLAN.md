@@ -97,6 +97,14 @@ Avoid giving code first.
 
 Teach thinking first.
 
+When introducing a new function or method, explain:
+
+1. Why it is needed.
+2. What arguments it receives.
+3. What it returns.
+4. Whether it changes the original object or returns a new result.
+5. Whether the result must be saved back into a variable.
+
 ---
 
 # Coding Rules
