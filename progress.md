@@ -13,6 +13,11 @@ Phase 1 - Data Analysis Foundations
   * Converted `date` from string to datetime.
   * Sorted by date in ascending order and checked chronological order.
   * Reviewed in `answers/text/week1_2.txt` and `answers/code/week1_2.ipynb`.
+* Week 1 Exercise 3 - Missing value analysis using `week1_macro_practice.csv`
+  * Identified columns and dates with missing values.
+  * Used `loc` with `isna().any(axis=1)` to inspect rows containing missing values.
+  * Explained why missing values should not be deleted or filled before understanding column meaning and analysis purpose.
+  * Reviewed in `answers/text/week1/week1_3.txt` and `answers/code/week1/week1_3.ipynb`.
 
 ## In Progress
 
@@ -25,6 +30,7 @@ Phase 1 - Data Analysis Foundations
 * Duplicate row concept
 * Translating code output into precise written analysis
 * Date range interpretation
+* Explaining missing value treatment decisions precisely
 
 ## Strong Areas
 
@@ -43,13 +49,13 @@ Week Status: In Progress
 
 # Diagnostic Scores
 
-Pandas: 3/10
-EDA: 1/10
+Pandas: 4/10
+EDA: 2/10
 Visualization: 0/10
-Missing Value Handling: 1/10
+Missing Value Handling: 3/10
 Feature Engineering: 0/10
 Model Evaluation: 0/10
-Leakage Awareness: 0/10
+Leakage Awareness: 1/10
 Time-Series Intuition: 2/10
 
 # Weakness Log
@@ -74,3 +80,10 @@ Mistake: Initially reversed the earliest and latest dates, and described a 2021-
 Root Cause: Calendar range and time-axis language were interpreted loosely.
 Correction: Earliest date means the oldest point in time; latest date means the most recent point in time. 2021-01 through 2024-12 is about 4 years of monthly data.
 Follow-up Exercise: Future time-series exercises must state earliest date, latest date, frequency, and approximate coverage period.
+
+## Missing Value Treatment Reasoning
+
+Mistake: Initially explained missing values as something to handle later all at once, rather than as a decision based on column meaning and analysis purpose.
+Root Cause: Treated missing value handling as a mechanical cleaning step.
+Correction: Missing value treatment depends on whether the missing column is a target candidate, explanatory variable candidate, or reference indicator. In time-series data, filling missing values with future information can create data leakage.
+Follow-up Exercise: Future missing value exercises must explain why each missing value should be inspected before using `dropna()` or `fillna()`.
