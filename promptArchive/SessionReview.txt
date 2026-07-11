@@ -6,8 +6,8 @@ IMPORTANT:
 
 Review both:
 
-1. week1_2.ipynb << 숫자 수정하기
-2. week1_2.txt << 숫자 수정하기
+1. week1_3.ipynb
+2. week1_3.txt
 
 also Review:
 
