@@ -18,6 +18,11 @@ Phase 1 - Data Analysis Foundations
   * Used `loc` with `isna().any(axis=1)` to inspect rows containing missing values.
   * Explained why missing values should not be deleted or filled before understanding column meaning and analysis purpose.
   * Reviewed in `answers/text/week1/week1_3.txt` and `answers/code/week1/week1_3.ipynb`.
+* Week 1 Exercise 4 - Summary statistics interpretation using `week1_macro_practice.csv`
+  * Used `describe()`, `mean()`, `min()`, and `max()` to inspect numeric summaries.
+  * Interpreted `count`, `mean`, `min`, `max`, and `std` as modeling-preparation checks.
+  * Noted that `describe()` count excludes `NaN` values.
+  * Reviewed in `answers/text/week1/week1_4.txt` and `answers/code/week1/week1_4.ipynb`.
 
 ## In Progress
 
@@ -31,6 +36,7 @@ Phase 1 - Data Analysis Foundations
 * Translating code output into precise written analysis
 * Date range interpretation
 * Explaining missing value treatment decisions precisely
+* Distinguishing summary statistics from causal/economic explanations
 
 ## Strong Areas
 
@@ -49,8 +55,8 @@ Week Status: In Progress
 
 # Diagnostic Scores
 
-Pandas: 4/10
-EDA: 2/10
+Pandas: 5/10
+EDA: 3/10
 Visualization: 0/10
 Missing Value Handling: 3/10
 Feature Engineering: 0/10
@@ -87,3 +93,10 @@ Mistake: Initially explained missing values as something to handle later all at 
 Root Cause: Treated missing value handling as a mechanical cleaning step.
 Correction: Missing value treatment depends on whether the missing column is a target candidate, explanatory variable candidate, or reference indicator. In time-series data, filling missing values with future information can create data leakage.
 Follow-up Exercise: Future missing value exercises must explain why each missing value should be inspected before using `dropna()` or `fillna()`.
+
+## Summary Statistics Scope
+
+Mistake: Initially treated summary statistics as requiring deeper economic interpretation than needed for the current bootcamp phase.
+Root Cause: The exercise scope was too broad and risked turning basic EDA into domain-heavy macro interpretation.
+Correction: At this stage, summary statistics are used to inspect ranges, counts, missingness effects, and rough variability before modeling. They do not need to explain economic causes yet.
+Follow-up Exercise: Future summary-statistics exercises should separate "what the summary shows" from "why the economy behaved that way."
