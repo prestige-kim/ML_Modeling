@@ -23,6 +23,12 @@ Phase 1 - Data Analysis Foundations
   * Interpreted `count`, `mean`, `min`, `max`, and `std` as modeling-preparation checks.
   * Noted that `describe()` count excludes `NaN` values.
   * Reviewed in `answers/text/week1/week1_4.txt` and `answers/code/week1/week1_4.ipynb`.
+* Week 1 Exercise 5 - Basic time-series visualization using `week1_macro_practice.csv`
+  * Created line plots for `industrial_production_index` and `pmi` using `plot()`.
+  * Interpreted broad upward/downward movements and visible gaps caused by missing values.
+  * Compared what graphs show better than summary statistics and what summary statistics show better than graphs.
+  * Clarified that exact missing months may require checking the underlying data, not only reading the plot axis.
+  * Reviewed in `answers/text/week1/week1_5.txt` and `answers/code/week1/week1_5.ipynb`.
 
 ## In Progress
 
@@ -37,6 +43,7 @@ Phase 1 - Data Analysis Foundations
 * Date range interpretation
 * Explaining missing value treatment decisions precisely
 * Distinguishing summary statistics from causal/economic explanations
+* Distinguishing what can be read from a plot from what requires checking the raw data
 
 ## Strong Areas
 
@@ -55,14 +62,14 @@ Week Status: In Progress
 
 # Diagnostic Scores
 
-Pandas: 5/10
-EDA: 3/10
-Visualization: 0/10
+Pandas: 6/10
+EDA: 4/10
+Visualization: 2/10
 Missing Value Handling: 3/10
 Feature Engineering: 0/10
 Model Evaluation: 0/10
 Leakage Awareness: 1/10
-Time-Series Intuition: 2/10
+Time-Series Intuition: 3/10
 
 # Weakness Log
 
@@ -100,3 +107,10 @@ Mistake: Initially treated summary statistics as requiring deeper economic inter
 Root Cause: The exercise scope was too broad and risked turning basic EDA into domain-heavy macro interpretation.
 Correction: At this stage, summary statistics are used to inspect ranges, counts, missingness effects, and rough variability before modeling. They do not need to explain economic causes yet.
 Follow-up Exercise: Future summary-statistics exercises should separate "what the summary shows" from "why the economy behaved that way."
+
+## Plot Interpretation Scope
+
+Mistake: The review initially demanded exact missing months from a graph where the x-axis did not show every month.
+Root Cause: The evaluation standard mixed visual interpretation with raw-data verification.
+Correction: For basic visualization exercises, distinguish between what is visible from the plot and what requires checking the underlying DataFrame.
+Follow-up Exercise: Future graph exercises should ask for broad trend, visible gaps, and uncertainty from the graph first; exact dates should be required only when the task explicitly asks the student to inspect the raw data.
