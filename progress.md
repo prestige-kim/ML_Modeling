@@ -29,6 +29,12 @@ Phase 1 - Data Analysis Foundations
   * Compared what graphs show better than summary statistics and what summary statistics show better than graphs.
   * Clarified that exact missing months may require checking the underlying data, not only reading the plot axis.
   * Reviewed in `answers/text/week1/week1_5.txt` and `answers/code/week1/week1_5.ipynb`.
+* Week 1 Exercise 6 - Scatter plot relationship check using `week1_macro_practice.csv`
+  * Created a scatter plot with `pmi` on the x-axis and `industrial_production_index` on the y-axis.
+  * Interpreted that no clear visual relationship was obvious from the scatter plot alone.
+  * Corrected the modeling interpretation from "not useful" to "not enough evidence from this plot alone."
+  * Noted that missing values can remove points from a scatter plot.
+  * Reviewed in `answers/text/week1/week1_6.txt` and `answers/code/week1/week1_6.ipynb`.
 
 ## In Progress
 
@@ -44,6 +50,7 @@ Phase 1 - Data Analysis Foundations
 * Explaining missing value treatment decisions precisely
 * Distinguishing summary statistics from causal/economic explanations
 * Distinguishing what can be read from a plot from what requires checking the raw data
+* Avoiding overstatement when a graph does not show a clear relationship
 
 ## Strong Areas
 
@@ -63,12 +70,12 @@ Week Status: In Progress
 # Diagnostic Scores
 
 Pandas: 6/10
-EDA: 4/10
-Visualization: 2/10
+EDA: 5/10
+Visualization: 3/10
 Missing Value Handling: 3/10
 Feature Engineering: 0/10
 Model Evaluation: 0/10
-Leakage Awareness: 1/10
+Leakage Awareness: 2/10
 Time-Series Intuition: 3/10
 
 # Weakness Log
@@ -114,3 +121,10 @@ Mistake: The review initially demanded exact missing months from a graph where t
 Root Cause: The evaluation standard mixed visual interpretation with raw-data verification.
 Correction: For basic visualization exercises, distinguish between what is visible from the plot and what requires checking the underlying DataFrame.
 Follow-up Exercise: Future graph exercises should ask for broad trend, visible gaps, and uncertainty from the graph first; exact dates should be required only when the task explicitly asks the student to inspect the raw data.
+
+## Scatter Plot Overstatement
+
+Mistake: Initially described PMI as not useful for prediction based mainly on one same-time scatter plot.
+Root Cause: Treated a weak visual relationship as enough evidence to reject a variable for modeling.
+Correction: A scatter plot can show whether a simple same-time relationship is visually obvious, but it cannot alone prove a variable has no predictive value. Time-series features may work through lags or in combination with other variables.
+Follow-up Exercise: Future relationship checks must use cautious language such as "this plot alone does not show clear evidence" instead of "this variable is not useful."
