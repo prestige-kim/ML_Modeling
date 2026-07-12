@@ -35,11 +35,18 @@ Phase 1 - Data Analysis Foundations
   * Corrected the modeling interpretation from "not useful" to "not enough evidence from this plot alone."
   * Noted that missing values can remove points from a scatter plot.
   * Reviewed in `answers/text/week1/week1_6.txt` and `answers/code/week1/week1_6.ipynb`.
+* Week 1 Review Check - End-to-end EDA review using `week1_macro_practice.csv`
+  * Re-ran the full Week 1 EDA workflow: load data, inspect structure, convert dates, sort chronologically, check missing values, inspect summary statistics, and create line/scatter plots.
+  * Explained the difference between date conversion and chronological sorting.
+  * Explained that `describe()` count excludes `NaN` values and that averages do not show time order.
+  * Identified remaining confusion around choosing target variables and explanatory variables before modeling.
+  * Reviewed in `answers/text/week1/week1_review.txt` and `answers/code/week1/week1_review.ipynb`.
 
 ## In Progress
 
-* Pandas
-* Data Exploration
+* Phase 2 - Machine Learning Foundations
+* Target variable and explanatory variable selection
+* Baseline modeling concepts
 
 ## Weak Areas
 
@@ -51,6 +58,7 @@ Phase 1 - Data Analysis Foundations
 * Distinguishing summary statistics from causal/economic explanations
 * Distinguishing what can be read from a plot from what requires checking the raw data
 * Avoiding overstatement when a graph does not show a clear relationship
+* Choosing target variables and explanatory variables based on modeling purpose rather than only data cleanliness
 
 ## Strong Areas
 
@@ -64,19 +72,19 @@ Starting point: Modeling beginner.
 
 Start Date: 2026-07-09
 
-Current Week: 1
+Current Week: 2
 Week Status: In Progress
 
 # Diagnostic Scores
 
-Pandas: 6/10
-EDA: 5/10
+Pandas: 7/10
+EDA: 6/10
 Visualization: 3/10
 Missing Value Handling: 3/10
 Feature Engineering: 0/10
 Model Evaluation: 0/10
-Leakage Awareness: 2/10
-Time-Series Intuition: 3/10
+Leakage Awareness: 3/10
+Time-Series Intuition: 4/10
 
 # Weakness Log
 
@@ -128,3 +136,10 @@ Mistake: Initially described PMI as not useful for prediction based mainly on on
 Root Cause: Treated a weak visual relationship as enough evidence to reject a variable for modeling.
 Correction: A scatter plot can show whether a simple same-time relationship is visually obvious, but it cannot alone prove a variable has no predictive value. Time-series features may work through lags or in combination with other variables.
 Follow-up Exercise: Future relationship checks must use cautious language such as "this plot alone does not show clear evidence" instead of "this variable is not useful."
+
+## Target and Explanatory Variable Selection
+
+Mistake: Initially chose a target variable partly because it had no missing values and looked stable.
+Root Cause: Treated data cleanliness as the main reason to define a prediction target.
+Correction: A target variable should be chosen because it answers the modeling question: "What future value do I want to predict?" Explanatory variables should be chosen because they may provide information available at prediction time.
+Follow-up Exercise: Week 2 should begin by explicitly defining target variable, prediction timestamp, available information, and a simple baseline before fitting any model.

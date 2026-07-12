@@ -6,8 +6,8 @@ IMPORTANT:
 
 Review both:
 
-1. week1_6.ipynb
-2. week1_6.txt
+1. week1_reivew.ipynb
+2. week1_reivew.txt
 
 also Review:
 
