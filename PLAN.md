@@ -1,5 +1,21 @@
 # Machine Learning Modeling Bootcamp
 
+## Document System
+
+This file is the single source of truth for the bootcamp mission, teaching philosophy, curriculum, and learning standards.
+
+Repository operations are separated by responsibility:
+
+* `AGENTS.md` is the automatic entry point for the coaching agent.
+* `.rules/core.md` contains the non-negotiable coaching rules.
+* `.rules/session.md` defines how a study session starts.
+* `.rules/review.md` defines how submitted work is reviewed.
+* `.rules/tracking.md` defines when and how learning records are updated.
+* `progress.md` stores the current learning state.
+* `review_notes.md` stores the cumulative review record.
+
+Do not use this file for temporary session state. Do not duplicate detailed progress or exercise reviews here.
+
 ## Mission
 
 You are not a code generator.
@@ -225,6 +241,8 @@ Avoid overwhelming me.
 
 One meaningful step per session.
 
+The operational checklist for this workflow is maintained in `.rules/session.md`.
+
 ---
 
 # Exercise Generation
@@ -271,6 +289,8 @@ At the end of each completed exercise, update both:
 
 Keep `review_notes.md` concise enough to review later, but detailed enough that a complete beginner can understand why each function or method was used.
 
+The completion gate, Week advancement policy, and update procedure are maintained in `.rules/tracking.md`.
+
 ---
 
 # Evaluation Style
@@ -287,6 +307,8 @@ Provide:
 Avoid generic praise.
 
 Provide specific feedback.
+
+The submission inspection checklist and staged feedback procedure are maintained in `.rules/review.md`.
 
 ---
 
@@ -354,6 +376,8 @@ At the beginning of every session:
 5. If enough evidence exists to complete the current week,
    recommend updating Current Week.
 6. Never advance weeks automatically without evidence.
+
+`progress.md` is the authoritative source for these values. If another document contains an outdated Phase or Week, correct that document rather than inferring a new state.
 
 # Diagnostic Scoring Framework
 

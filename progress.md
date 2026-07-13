@@ -1,145 +1,132 @@
-# Progress Tracking
+# Bootcamp Progress
 
-## Current Phase
+이 파일은 부트캠프의 현재 실행 상태를 기록하는 단일 원본이다. 교육과정은 `PLAN.md`, 상세 복습 기록은 `review_notes.md`, 갱신 절차는 `.rules/tracking.md`를 따른다.
 
-Phase 1 - Data Analysis Foundations
+## Current State
 
-## Completed
+| Field | Value |
+|---|---|
+| Start Date | 2026-07-09 |
+| Last Updated | 2026-07-13 |
+| Current Phase | Phase 2 - Machine Learning Foundations |
+| Current Week | 2 |
+| Week Status | In Progress |
+| Current Focus | Baseline modeling concepts and time-series train/test split |
+| Next Session Goal | Feature month와 target month를 정렬하고 1개월 Forecast Horizon에 맞는 학습 데이터를 설계한다. |
 
-* Week 1 Exercise 1 - Basic dataset inspection using `week1_macro_practice.csv`
-  * Checked shape, columns, dtypes, missing values, duplicate rows, date column, and row meaning.
-  * Reviewed in `answers/text/week1_1.txt` and `answers/code/week1_1.ipynb`.
-* Week 1 Exercise 2 - Date conversion and chronological sorting using `week1_macro_practice.csv`
-  * Converted `date` from string to datetime.
-  * Sorted by date in ascending order and checked chronological order.
-  * Reviewed in `answers/text/week1_2.txt` and `answers/code/week1_2.ipynb`.
-* Week 1 Exercise 3 - Missing value analysis using `week1_macro_practice.csv`
-  * Identified columns and dates with missing values.
-  * Used `loc` with `isna().any(axis=1)` to inspect rows containing missing values.
-  * Explained why missing values should not be deleted or filled before understanding column meaning and analysis purpose.
-  * Reviewed in `answers/text/week1/week1_3.txt` and `answers/code/week1/week1_3.ipynb`.
-* Week 1 Exercise 4 - Summary statistics interpretation using `week1_macro_practice.csv`
-  * Used `describe()`, `mean()`, `min()`, and `max()` to inspect numeric summaries.
-  * Interpreted `count`, `mean`, `min`, `max`, and `std` as modeling-preparation checks.
-  * Noted that `describe()` count excludes `NaN` values.
-  * Reviewed in `answers/text/week1/week1_4.txt` and `answers/code/week1/week1_4.ipynb`.
-* Week 1 Exercise 5 - Basic time-series visualization using `week1_macro_practice.csv`
-  * Created line plots for `industrial_production_index` and `pmi` using `plot()`.
-  * Interpreted broad upward/downward movements and visible gaps caused by missing values.
-  * Compared what graphs show better than summary statistics and what summary statistics show better than graphs.
-  * Clarified that exact missing months may require checking the underlying data, not only reading the plot axis.
-  * Reviewed in `answers/text/week1/week1_5.txt` and `answers/code/week1/week1_5.ipynb`.
-* Week 1 Exercise 6 - Scatter plot relationship check using `week1_macro_practice.csv`
-  * Created a scatter plot with `pmi` on the x-axis and `industrial_production_index` on the y-axis.
-  * Interpreted that no clear visual relationship was obvious from the scatter plot alone.
-  * Corrected the modeling interpretation from "not useful" to "not enough evidence from this plot alone."
-  * Noted that missing values can remove points from a scatter plot.
-  * Reviewed in `answers/text/week1/week1_6.txt` and `answers/code/week1/week1_6.ipynb`.
-* Week 1 Review Check - End-to-end EDA review using `week1_macro_practice.csv`
-  * Re-ran the full Week 1 EDA workflow: load data, inspect structure, convert dates, sort chronologically, check missing values, inspect summary statistics, and create line/scatter plots.
-  * Explained the difference between date conversion and chronological sorting.
-  * Explained that `describe()` count excludes `NaN` values and that averages do not show time order.
-  * Identified remaining confusion around choosing target variables and explanatory variables before modeling.
-  * Reviewed in `answers/text/week1/week1_review.txt` and `answers/code/week1/week1_review.ipynb`.
+## Completed Evidence
 
-## In Progress
+상세한 학습 내용과 함수 설명은 `review_notes.md`에 기록한다.
 
-* Phase 2 - Machine Learning Foundations
-* Target variable and explanatory variable selection
-* Baseline modeling concepts
+### Week 1 - Data Analysis Foundations
 
-## Weak Areas
+- Exercise 1 - Basic dataset inspection
+  - 데이터 구조, 자료형, 결측치, 중복 행과 행의 의미를 점검했다.
+  - 답안: `answers/code/week1/week1_1.ipynb`, `answers/text/week1/week1_1.txt`
+- Exercise 2 - Date conversion and chronological sorting
+  - 날짜 변환과 시간순 정렬을 구분하고 오름차순 여부를 확인했다.
+  - 답안: `answers/code/week1/week1_2.ipynb`, `answers/text/week1/week1_2.txt`
+- Exercise 3 - Missing value analysis
+  - 결측 컬럼과 날짜를 찾고, 의미를 확인하기 전 기계적으로 처리하지 않아야 하는 이유를 설명했다.
+  - 답안: `answers/code/week1/week1_3.ipynb`, `answers/text/week1/week1_3.txt`
+- Exercise 4 - Summary statistics interpretation
+  - `count`, `mean`, `min`, `max`, `std`와 `NaN`의 영향을 해석했다.
+  - 답안: `answers/code/week1/week1_4.ipynb`, `answers/text/week1/week1_4.txt`
+- Exercise 5 - Basic time-series visualization
+  - 선 그래프로 시간 흐름과 결측으로 인한 시각적 공백을 확인했다.
+  - 답안: `answers/code/week1/week1_5.ipynb`, `answers/text/week1/week1_5.txt`
+- Exercise 6 - Scatter plot relationship check
+  - 산점도에서 뚜렷한 관계가 없다는 관찰과 예측에 쓸모없다는 단정을 구분했다.
+  - 답안: `answers/code/week1/week1_6.ipynb`, `answers/text/week1/week1_6.txt`
+- Week 1 Review Check - End-to-end EDA review
+  - 데이터 로드부터 시각화와 모델링 전 판단까지 전체 EDA 흐름을 다시 수행했다.
+  - 답안: `answers/code/week1/week1_review.ipynb`, `answers/text/week1/week1_review.txt`
 
-* Pandas method interpretation
-* Duplicate row concept
-* Translating code output into precise written analysis
-* Date range interpretation
-* Explaining missing value treatment decisions precisely
-* Distinguishing summary statistics from causal/economic explanations
-* Distinguishing what can be read from a plot from what requires checking the raw data
-* Avoiding overstatement when a graph does not show a clear relationship
-* Choosing target variables and explanatory variables based on modeling purpose rather than only data cleanliness
+### Week 2 - Machine Learning Foundations
+
+- Exercise 1 - Modeling problem definition
+  - 목표 변수 `industrial_production_index`와 다음 달이라는 예측 대상 시점을 구분했다.
+  - Forecast Horizon을 1개월로 정의하고, 설명 변수의 예측 시점 가용성과 Data Leakage 위험을 설명했다.
+  - 답안: `answers/code/week2/week2_1.ipynb`, `answers/text/week2/week2_1.txt`
+
+## Diagnostic Scores
+
+점수 범위는 0부터 10까지다. Exercise 리뷰에서 확인된 증거가 있을 때만 변경한다.
+
+| Area | Score |
+|---|---:|
+| Pandas | 7/10 |
+| EDA | 6/10 |
+| Visualization | 3/10 |
+| Missing Value Handling | 3/10 |
+| Feature Engineering | 0/10 |
+| Model Evaluation | 0/10 |
+| Leakage Awareness | 4/10 |
+| Time-Series Intuition | 5/10 |
+
+## Active Weak Areas
+
+- Pandas 메서드의 반환값, 원본 변경 여부와 재할당 필요성을 정확히 설명하기
+- 코드 출력을 과장 없이 정확한 문장으로 옮기기
+- 결측치 처리 결정을 컬럼 의미와 예측 목적에 따라 설명하기
+- 그래프가 보여주는 사실과 추가 데이터 확인이 필요한 판단을 구분하기
+- 약한 시각적 관계만으로 변수의 예측 가치를 단정하지 않기
+- 설명 변수를 데이터의 깔끔함이 아니라 예측 시점의 정보 가용성으로 선택하기
+- Data Leakage를 단순한 과적합이 아니라 실제로 사용할 수 없는 정보로 인한 평가 왜곡으로 설명하기
 
 ## Strong Areas
 
-* Economic Data Understanding
-* Data Collection
-* Data Source Validation
+- Economic Data Understanding
+- Data Collection
+- Data Source Validation
 
-## Notes
+## Follow-up Queue
 
-Starting point: Modeling beginner.
+1. Feature month와 target month를 예시 날짜로 명확히 구분한다.
+2. 각 설명 변수 후보가 Prediction Time에 실제로 발표되어 있는지 확인하는 습관을 만든다.
+3. 시계열 데이터에서 무작위 분할이 위험한 이유를 설명한다.
+4. 복잡한 모델 전에 사용할 Baseline Model의 역할을 이해한다.
 
-Start Date: 2026-07-09
+## Week Advancement Evidence
 
-Current Week: 2
-Week Status: In Progress
+- 현재 판단: Week 2 유지, `In Progress`.
+- 확보된 증거: Exercise 1에서 목표 변수, 예측 대상 시점, 1개월 Forecast Horizon과 Prediction Time의 핵심을 설명했다.
+- 추가로 필요한 증거: feature/target 정렬, 시계열 train/test split, Baseline Model, MAE/RMSE의 기본 이해와 Week 2 Review Check.
+- 승급 규칙: 충분한 증거가 모이면 다음 Week로의 이동을 추천하며, 자동으로 변경하지 않는다.
 
-# Diagnostic Scores
+## Recurring Mistakes
 
-Pandas: 7/10
-EDA: 6/10
-Visualization: 3/10
-Missing Value Handling: 3/10
-Feature Engineering: 0/10
-Model Evaluation: 0/10
-Leakage Awareness: 3/10
-Time-Series Intuition: 4/10
+### Duplicate Row Concept
 
-# Weakness Log
+- 실수: 반복되는 값이나 컬럼을 중복 행과 혼동했다.
+- 교정: 한 행의 모든 컬럼 값이 다른 행과 동일할 때 중복 행이다.
 
-## Duplicate Row Concept
+### Pandas Output Interpretation
 
-Mistake: Initially treated repeated values or columns as possible duplicates.
-Root Cause: Did not distinguish repeated values from duplicated rows.
-Correction: A duplicated row means one row's full set of column values is identical to another row's full set of column values.
-Follow-up Exercise: Continue checking duplicate rows in future datasets and explain whether repeated economic values are normal or true duplicate observations.
+- 실수: 메서드를 실행한 뒤 출력의 의미를 정확한 문장으로 옮기지 못했다.
+- 교정: 각 점검 결과가 데이터에 관해 무엇을 말하는지 함께 기록한다.
 
-## Pandas Output Interpretation
+### Date Range Interpretation
 
-Mistake: Code output was initially not fully translated into precise written findings.
-Root Cause: Focused on running methods before interpreting their outputs.
-Correction: For every inspection method, write what the output means in plain language.
-Follow-up Exercise: Next exercise must include a short written interpretation for `shape`, `dtypes`, missing values, and date handling.
+- 실수: 가장 이른 날짜와 늦은 날짜를 뒤집고 2021-01부터 2024-12까지를 약 3년으로 표현했다.
+- 교정: 해당 범위는 약 4년의 월별 데이터다.
 
-## Date Range Interpretation
+### Missing Value Treatment Reasoning
 
-Mistake: Initially reversed the earliest and latest dates, and described a 2021-01 to 2024-12 range as about 3 years.
-Root Cause: Calendar range and time-axis language were interpreted loosely.
-Correction: Earliest date means the oldest point in time; latest date means the most recent point in time. 2021-01 through 2024-12 is about 4 years of monthly data.
-Follow-up Exercise: Future time-series exercises must state earliest date, latest date, frequency, and approximate coverage period.
+- 실수: 결측치 처리를 한 번에 수행하는 기계적인 정리 단계로 생각했다.
+- 교정: 컬럼의 역할과 분석 목적을 먼저 확인하고 미래 정보가 섞이지 않는 방법을 선택한다.
 
-## Missing Value Treatment Reasoning
+### Summary and Plot Interpretation Scope
 
-Mistake: Initially explained missing values as something to handle later all at once, rather than as a decision based on column meaning and analysis purpose.
-Root Cause: Treated missing value handling as a mechanical cleaning step.
-Correction: Missing value treatment depends on whether the missing column is a target candidate, explanatory variable candidate, or reference indicator. In time-series data, filling missing values with future information can create data leakage.
-Follow-up Exercise: Future missing value exercises must explain why each missing value should be inspected before using `dropna()` or `fillna()`.
+- 실수: 요약 통계나 그래프만으로 경제적 원인, 정확한 날짜 또는 예측력을 과도하게 해석했다.
+- 교정: 관찰된 사실과 추가 검증이 필요한 해석을 분리한다.
 
-## Summary Statistics Scope
+### Target and Explanatory Variable Selection
 
-Mistake: Initially treated summary statistics as requiring deeper economic interpretation than needed for the current bootcamp phase.
-Root Cause: The exercise scope was too broad and risked turning basic EDA into domain-heavy macro interpretation.
-Correction: At this stage, summary statistics are used to inspect ranges, counts, missingness effects, and rough variability before modeling. They do not need to explain economic causes yet.
-Follow-up Exercise: Future summary-statistics exercises should separate "what the summary shows" from "why the economy behaved that way."
+- 실수: 결측치가 없고 안정적으로 보인다는 이유를 목표 변수 선택의 주요 근거로 사용했다.
+- 교정: 목표 변수는 미래에 알고 싶은 값으로, 설명 변수는 예측 시점에 사용할 수 있고 관련 가능성이 있는 정보로 정한다.
 
-## Plot Interpretation Scope
+### Prediction Time and Data Leakage
 
-Mistake: The review initially demanded exact missing months from a graph where the x-axis did not show every month.
-Root Cause: The evaluation standard mixed visual interpretation with raw-data verification.
-Correction: For basic visualization exercises, distinguish between what is visible from the plot and what requires checking the underlying DataFrame.
-Follow-up Exercise: Future graph exercises should ask for broad trend, visible gaps, and uncertainty from the graph first; exact dates should be required only when the task explicitly asks the student to inspect the raw data.
-
-## Scatter Plot Overstatement
-
-Mistake: Initially described PMI as not useful for prediction based mainly on one same-time scatter plot.
-Root Cause: Treated a weak visual relationship as enough evidence to reject a variable for modeling.
-Correction: A scatter plot can show whether a simple same-time relationship is visually obvious, but it cannot alone prove a variable has no predictive value. Time-series features may work through lags or in combination with other variables.
-Follow-up Exercise: Future relationship checks must use cautious language such as "this plot alone does not show clear evidence" instead of "this variable is not useful."
-
-## Target and Explanatory Variable Selection
-
-Mistake: Initially chose a target variable partly because it had no missing values and looked stable.
-Root Cause: Treated data cleanliness as the main reason to define a prediction target.
-Correction: A target variable should be chosen because it answers the modeling question: "What future value do I want to predict?" Explanatory variables should be chosen because they may provide information available at prediction time.
-Follow-up Exercise: Week 2 should begin by explicitly defining target variable, prediction timestamp, available information, and a simple baseline before fitting any model.
+- 실수: 예측 대상, 모델의 예측값과 예측 시점에 사용할 수 있는 정보를 혼동했다.
+- 교정: 예측 시점에는 그 순간까지 실제로 관측 또는 발표된 정보만 사용할 수 있다.

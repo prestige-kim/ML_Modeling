@@ -1,160 +1,121 @@
 # Machine Learning Modeling Bootcamp
 
-> 경제·시계열 데이터를 활용한 머신러닝 모델링 역량 구축 프로젝트
+경제·시계열 데이터를 사용해 데이터 이해, 전처리, 모델링, 평가와 해석을 독립적으로 수행하는 능력을 기르는 학습 저장소다.
 
-## 📖 Overview
+목표는 튜토리얼을 빠르게 끝내는 것이 아니라 새로운 예측 문제를 만났을 때 다음 과정을 스스로 설계하는 것이다.
 
-이 저장소는 단순히 머신러닝 모델을 사용하는 방법을 배우는 것이 아니라,
+```text
+데이터 확인 → 예측 문제 정의 → 전처리 → 기준 모델 → 평가 → 개선 → 해석
+```
 
-**데이터 수집 → 분석 → 전처리 → 모델링 → 평가 → 해석**
+## Automated Coaching System
 
-까지의 전체 워크플로우를 스스로 수행할 수 있는 역량을 기르기 위해 운영하는 장기 학습 프로젝트입니다.
+이 저장소의 부트캠프 운영은 다음 문서 계층으로 관리한다.
 
-최종 목표는 새로운 경제 데이터 문제를 마주했을 때,
+| File | Responsibility |
+|---|---|
+| `AGENTS.md` | 에이전트가 자동으로 참고하는 저장소 운영 진입점 |
+| `PLAN.md` | 교육 목표, 교수 원칙과 전체 커리큘럼의 단일 원본 |
+| `.rules/core.md` | 언어, 단계적 힌트, 모델링 안전 기준 등 공통 규칙 |
+| `.rules/session.md` | 세션 시작 시 현재 상태를 읽고 과제를 제시하는 절차 |
+| `.rules/review.md` | 코드와 글 답안을 검토하고 단계적으로 피드백하는 절차 |
+| `.rules/tracking.md` | Exercise 통과, 진도 갱신과 Week 승급 절차 |
+| `progress.md` | 현재 Phase, Week, 점수, 활성 약점과 다음 목표 |
+| `review_notes.md` | 완료한 Exercise의 개념, 함수와 교정된 실수 기록 |
 
-- 적절한 데이터를 수집하고
-- 데이터 구조를 분석하며
-- 예측 문제를 정의하고
-- 모델을 구축하고 평가한 뒤
-- 결과를 해석할 수 있는
+`.rules/`는 독립적으로 자동 탐색되는 설정에 의존하지 않는다. `AGENTS.md`가 요청 유형에 맞는 규칙 파일을 읽도록 연결한다.
 
-독립적인 머신러닝 모델러가 되는 것입니다.
+## Workflow
 
----
+### 세션 시작
 
-## 🎯 Learning Goals
+`promptArchive/DailyStartPrompt.txt`의 짧은 요청을 사용하면 에이전트가 다음 순서로 진행한다.
 
-- 데이터 분석 기초 역량 구축
-- 머신러닝 모델링 기초 학습
-- Feature Engineering 습득
-- 시계열 데이터 이해
-- Forecasting 모델 학습
-- 경제 데이터 기반 예측 프로젝트 수행
+```text
+AGENTS.md
+→ .rules/core.md와 .rules/session.md
+→ PLAN.md와 progress.md
+→ 현재 약점에 맞는 오늘의 단일 학습 목표
+```
 
----
+### 답안 리뷰
 
-## 🛣️ Roadmap
+답안은 같은 Exercise 이름으로 코드와 글을 나눠 저장한다.
 
-### Phase 1 — Data Analysis Foundations
+```text
+answers/code/week2/week2_1.ipynb
+answers/text/week2/week2_1.txt
+```
 
-- Pandas
-- NumPy
-- Data Cleaning
-- Missing Values
-- Visualization
-- EDA
+리뷰에서는 Correctness, Modeling Logic, Data Leakage Risk, Evaluation Quality, Possible Improvements를 확인한다. 피드백은 `Hint → Guidance → Partial Solution → Full Solution` 순서이며 Full Solution은 명시적으로 요청한 경우에만 제공한다.
 
-### Phase 2 — Machine Learning Foundations
+### Exercise 완료
 
-- Train/Test Split
-- Baseline Models
-- MAE / RMSE
-- Linear Regression
-- Random Forest
-- XGBoost
+핵심 개념 이해와 제출물 검토가 끝나면 한 작업 흐름에서 두 문서를 함께 갱신한다.
 
-### Phase 3 — Feature Engineering
+- `progress.md`: 현재 상태, 완료 증거, 점수와 다음 목표
+- `review_notes.md`: 배운 개념, 함수 설명, 수정한 실수와 핵심 정리
 
-- Lag Features
-- Rolling Statistics
-- Differencing
-- Date Features
-- Scaling
+단일 Exercise 완료만으로 Week를 자동 승급하지 않는다.
 
-### Phase 4 — Time-Series Foundations
-
-- Trend
-- Seasonality
-- Stationarity
-- Forecast Horizon
-- Data Leakage
-
-### Phase 5 — Forecasting Models
-
-- ARIMA
-- SARIMA
-- Prophet
-
-### Phase 6 — Capstone Project
-
-실제 경제 데이터를 활용한 End-to-End 예측 프로젝트 수행
-
----
-
-## 📂 Repository Structure
+## Repository Structure
 
 ```text
 .
+├── AGENTS.md
 ├── PLAN.md
+├── README.md
 ├── progress.md
-├── notes/
-├── exercises/
-├── notebooks/
-├── datasets/
-└── projects/
+├── review_notes.md
+├── requirements.txt
+├── .rules/
+│   ├── core.md
+│   ├── review.md
+│   ├── session.md
+│   └── tracking.md
+├── answers/
+│   ├── code/
+│   │   ├── week1/
+│   │   └── week2/
+│   └── text/
+│       ├── week1/
+│       └── week2/
+├── data/
+├── promptArchive/
+│   ├── DailyStartPrompt.txt
+│   └── SessionReview.txt
+└── scripts/
+    └── validate_bootcamp.py
 ```
 
-| Directory | Description |
-|------------|------------|
-| notes | 학습 노트 및 개념 정리 |
-| exercises | 실습 코드 |
-| notebooks | 데이터 분석 및 실험 |
-| datasets | 학습용 데이터 |
-| projects | 프로젝트 및 캡스톤 |
+사용자 답안과 notebook 출력은 학습 증거다. 운영 문서를 정리한다는 이유로 수정하거나 삭제하지 않는다.
 
----
+## Curriculum
 
-## 🧠 Core Principles
+1. Phase 1 - Data Analysis Foundations
+2. Phase 2 - Machine Learning Foundations
+3. Phase 3 - Feature Engineering
+4. Phase 4 - Time-Series Foundations
+5. Phase 5 - Forecasting Models
+6. Phase 6 - Capstone Project
 
-### Understanding Over Memorization
+현재 학습 위치는 중복해서 기록하지 않고 `progress.md`를 기준으로 확인한다.
 
-모델 이름을 외우는 것보다
+## Environment
 
-**왜 작동하는지 이해하는 것**을 우선합니다.
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+python3 -m pip install -r requirements.txt
+jupyter notebook
+```
 
-### Baseline First
+notebook에서는 가능하면 사용자 컴퓨터의 절대 경로 대신 저장소 기준 상대 경로를 사용한다.
 
-복잡한 모델보다 먼저
+## Validation
 
-**기준 모델(Baseline)** 을 구축합니다.
+운영 문서를 변경하거나 Exercise 완료 기록을 갱신한 뒤 다음 명령으로 필수 파일, 현재 상태 필드, 진단 점수와 답안 경로를 확인한다.
 
-### Data Leakage Awareness
-
-모든 모델링 과정에서
-
-**Data Leakage** 를 지속적으로 점검합니다.
-
-### Explainability
-
-모델의 성능뿐 아니라
-
-**왜 그런 결과가 나왔는지 설명할 수 있어야 합니다.**
-
----
-
-## 🚀 Current Focus
-
-**Phase 1 — Data Analysis Foundations**
-
-현재 Pandas와 데이터 탐색(EDA)을 중심으로 학습을 진행하고 있습니다.
-
----
-
-## 🎓 Expected Outcome
-
-이 프로젝트가 완료되면 다음을 수행할 수 있는 것을 목표로 합니다.
-
-- 새로운 데이터셋을 독립적으로 분석
-- 머신러닝 모델 구축 및 평가
-- 시계열 예측 모델 설계
-- Data Leakage 탐지
-- 경제 데이터 기반 예측 프로젝트 수행
-- 결과 해석 및 문서화
-
----
-
-## 📌 Status
-
-Active Learning Project 🚧
-
-Continuously updated as the bootcamp progresses.
+```bash
+python3 scripts/validate_bootcamp.py
+```

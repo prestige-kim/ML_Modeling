@@ -1,3 +1,3 @@
-Read PLAN.md and progress.md.
+AGENTS.md의 부트캠프 운영 절차를 따라 오늘의 세션을 시작해줘.
 
-Start today's bootcamp session.
+PLAN.md와 progress.md를 확인하고, 현재 진도와 약점에 맞는 하나의 학습 목표를 제시해줘.

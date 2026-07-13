@@ -1,26 +1,10 @@
-Review my work according to PLAN.md.
+AGENTS.md와 `.rules/review.md`의 절차에 따라 아래 제출물을 리뷰해줘.
 
-Do not immediately give me the answer.
+검토할 파일:
 
-IMPORTANT:
+1. answers/code/<week>/<exercise>.ipynb
+2. answers/text/<week>/<exercise>.txt
 
-Review both:
+Correctness, Modeling Logic, Data Leakage Risk, Evaluation Quality, Possible Improvements를 확인해줘.
 
-1. week1_reivew.ipynb
-2. week1_reivew.txt
-
-also Review:
-
-1. Correctness
-2. Modeling Logic
-3. Data Leakage Risk
-4. Evaluation Quality
-5. Possible Improvements
-
-Use:
-
-Hint → Guidance → Partial Solution
-
-Only provide a full solution if explicitly requested.
-
-Here is my work:
+정답을 바로 제시하지 말고 `Hint → Guidance → Partial Solution` 순서로 진행해줘. Full Solution은 내가 명시적으로 요청한 경우에만 제공해줘.
