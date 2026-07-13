@@ -35,6 +35,7 @@
 AGENTS.md
 → .rules/core.md와 .rules/session.md
 → PLAN.md와 progress.md
+→ 현재 주차 notes/weekN.md
 → 현재 약점에 맞는 오늘의 단일 학습 목표
 ```
 

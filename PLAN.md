@@ -303,7 +303,8 @@ At the end of each completed exercise, update both:
    * Completed exercise number and title
    * Concepts practiced
    * Functions/methods used
-   * For each function or method, include what it does, what arguments it receives, what it returns, whether it changes the original object or returns a new result, and whether the result must be saved back into a variable
+   * For newly introduced functions or methods, include what it does, what arguments it receives, what it returns, whether it changes the original object or returns a new result, and whether the result must be saved back into a variable
+   * For functions or methods already explained in earlier notes, do not repeat the full explanation; briefly state how it was reused in the current exercise
    * Mistakes corrected
    * Key takeaway in plain language
 

@@ -13,8 +13,9 @@
    - 세션 시작: `.rules/session.md`
    - 답안 리뷰: `.rules/review.md`
    - 실습 완료 및 기록: `.rules/tracking.md`
+5. 세션 시작 시에는 `progress.md`의 현재 Week에 해당하는 `notes/weekN.md`
 
-`notes/weekN.md`는 과거 학습 내용이나 반복 실수를 확인해야 할 때 현재 주차에 맞춰 읽는다.
+`notes/weekN.md`는 과거 학습 내용이나 반복 실수를 확인해야 할 때 현재 주차에 맞춰 읽는다. 세션 시작 요청에서는 현재 Week의 노트를 항상 확인한다.
 
 ## 절대 운영 규칙
 

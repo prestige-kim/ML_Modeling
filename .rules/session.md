@@ -7,7 +7,7 @@
 1. `progress.md`에서 `Start Date`, `Last Updated`, `Current Phase`, `Current Week`, `Week Status`를 확인한다.
 2. 최근 완료 실습과 `Next Session Goal`을 확인한다.
 3. 활성 약점, Follow-up Queue, Diagnostic Scores를 확인한다.
-4. 필요할 때만 `review_notes.md`에서 관련 실수와 개념을 확인한다.
+4. 현재 Week에 해당하는 `notes/weekN.md`를 읽고 지난 실습의 Follow-up, 반복 실수, 새 세션 목표와 연결되는 개념을 확인한다.
 5. 현재 Week를 올릴 충분한 증거가 있는지 점검하되 자동으로 승급하지 않는다.
 
 ## 세션 제시 형식

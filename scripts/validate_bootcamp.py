@@ -11,6 +11,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 PROGRESS_PATH = ROOT / "progress.md"
+STALE_REFERENCE_PATTERN = "review_notes.md"
 
 REQUIRED_FILES = (
     "AGENTS.md",
@@ -105,6 +106,21 @@ def validate_answer_references(progress: str, errors: list[str]) -> None:
             errors.append(f"완료 증거로 기록된 답안 파일이 없습니다: {relative_path}")
 
 
+def validate_no_stale_review_notes_references(errors: list[str]) -> None:
+    for path in ROOT.rglob("*"):
+        if path.is_dir() or ".git" in path.parts or ".venv" in path.parts:
+            continue
+        if path == Path(__file__).resolve():
+            continue
+        try:
+            text = path.read_text(encoding="utf-8")
+        except UnicodeDecodeError:
+            continue
+        if STALE_REFERENCE_PATTERN in text:
+            relative_path = path.relative_to(ROOT)
+            errors.append(f"오래된 review_notes.md 참조가 남아 있습니다: {relative_path}")
+
+
 def main() -> int:
     errors: list[str] = []
     validate_required_files(errors)
@@ -114,6 +130,11 @@ def main() -> int:
         validate_state(progress, errors)
         validate_diagnostics(progress, errors)
         validate_answer_references(progress, errors)
+        current_week = table_value(progress, "Current Week")
+        if current_week and not (ROOT / f"notes/week{current_week}.md").is_file():
+            errors.append(f"현재 Week에 해당하는 노트 파일이 없습니다: notes/week{current_week}.md")
+
+    validate_no_stale_review_notes_references(errors)
 
     if errors:
         print("Bootcamp 문서 검증 실패:")
