@@ -23,11 +23,11 @@ Exercise 또는 Review Check가 통과되었을 때 적용한다.
 - Active Weak Areas와 Follow-up Queue
 - Week Advancement Evidence
 
-완료 기록에는 핵심 증거와 답안 경로만 남긴다. 함수별 상세 설명은 `review_notes.md`에 기록한다.
+완료 기록에는 핵심 증거와 답안 경로만 남긴다. 함수별 상세 설명은 해당 주차의 `notes/weekN.md`에 기록한다.
 
-## `review_notes.md` 갱신
+## `notes/weekN.md` 갱신
 
-완료한 Exercise마다 다음을 누적한다.
+완료한 Exercise마다 현재 Week에 해당하는 파일에 다음을 누적한다.
 
 - Phase, Week, Exercise 번호와 제목
 - 완료 상태와 사용 데이터셋
@@ -38,6 +38,8 @@ Exercise 또는 Review Check가 통과되었을 때 적용한다.
 - 초보자도 이해할 수 있는 핵심 정리
 
 기존 기록은 삭제하거나 과거 관점으로 다시 쓰지 않는다. 명백한 사실 오류를 고칠 때만 최소 수정한다.
+
+아직 해당 주차 파일이 없으면 `notes/weekN.md`를 새로 만든다. 예를 들어 Week 3 Exercise를 처음 완료하면 `notes/week3.md`를 만든다.
 
 ## Week 승급
 

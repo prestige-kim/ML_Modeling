@@ -21,7 +21,7 @@
 | `.rules/review.md` | 코드와 글 답안을 검토하고 단계적으로 피드백하는 절차 |
 | `.rules/tracking.md` | Exercise 통과, 진도 갱신과 Week 승급 절차 |
 | `progress.md` | 현재 Phase, Week, 점수, 활성 약점과 다음 목표 |
-| `review_notes.md` | 완료한 Exercise의 개념, 함수와 교정된 실수 기록 |
+| `notes/weekN.md` | 완료한 Exercise의 개념, 함수와 교정된 실수의 주차별 기록 |
 
 `.rules/`는 독립적으로 자동 탐색되는 설정에 의존하지 않는다. `AGENTS.md`가 요청 유형에 맞는 규칙 파일을 읽도록 연결한다.
 
@@ -54,7 +54,7 @@ answers/text/week2/week2_1.txt
 핵심 개념 이해와 제출물 검토가 끝나면 한 작업 흐름에서 두 문서를 함께 갱신한다.
 
 - `progress.md`: 현재 상태, 완료 증거, 점수와 다음 목표
-- `review_notes.md`: 배운 개념, 함수 설명, 수정한 실수와 핵심 정리
+- `notes/weekN.md`: 배운 개념, 함수 설명, 수정한 실수와 핵심 정리
 
 단일 Exercise 완료만으로 Week를 자동 승급하지 않는다.
 
@@ -66,8 +66,10 @@ answers/text/week2/week2_1.txt
 ├── PLAN.md
 ├── README.md
 ├── progress.md
-├── review_notes.md
 ├── requirements.txt
+├── notes/
+│   ├── week1.md
+│   └── week2.md
 ├── .rules/
 │   ├── core.md
 │   ├── review.md

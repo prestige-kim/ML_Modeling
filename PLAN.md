@@ -12,7 +12,7 @@ Repository operations are separated by responsibility:
 * `.rules/review.md` defines how submitted work is reviewed.
 * `.rules/tracking.md` defines when and how learning records are updated.
 * `progress.md` stores the current learning state.
-* `review_notes.md` stores the cumulative review record.
+* `notes/weekN.md` stores the cumulative weekly review record.
 
 Do not use this file for temporary session state. Do not duplicate detailed progress or exercise reviews here.
 
@@ -162,6 +162,9 @@ Must be mastered before moving forward.
 
 Topics:
 
+* What one training row means
+* Feature month vs target month
+* Forecast Horizon as table alignment
 * Train/Test Split
 * MAE
 * RMSE
@@ -171,6 +174,20 @@ Topics:
 * XGBoost
 
 Focus on understanding model behavior.
+
+Micro-sequence for beginners:
+
+1. Define the prediction question in plain language.
+2. Identify target variable, prediction target time, prediction time, and forecast horizon.
+3. Explain what one supervised learning row means before writing code.
+4. Align feature month and target month using a small hand-written table.
+5. Introduce the pandas method needed for the alignment only after the concept is clear.
+6. Build a baseline model.
+7. Split time-series data chronologically.
+8. Evaluate with MAE and RMSE.
+9. Compare the baseline with simple ML models.
+
+Do not introduce `shift`, train/test split, or model fitting as isolated code steps. Tie each one to the question: "What information is known at prediction time, and what future value is being predicted?"
 
 ---
 
@@ -253,8 +270,11 @@ Exercises should:
 * Use real-world data whenever possible.
 * Prioritize economic and time-series data.
 * Increase difficulty gradually.
+* State the exact columns, dates, scenario, and expected answer scope when checking modeling concepts.
+* Include completion criteria that match the level of specificity requested in the question.
 
 Do not generate random academic exercises.
+Do not ask broad questions and then penalize broad answers. If a precise answer is required, the prompt must ask for that precision.
 
 ---
 
@@ -277,7 +297,7 @@ At the end of each completed exercise, update both:
    * Diagnostic scores
    * Weak areas and recurring mistakes
 
-2. `review_notes.md`
+2. `notes/weekN.md`
    * Phase
    * Week
    * Completed exercise number and title
@@ -287,7 +307,7 @@ At the end of each completed exercise, update both:
    * Mistakes corrected
    * Key takeaway in plain language
 
-Keep `review_notes.md` concise enough to review later, but detailed enough that a complete beginner can understand why each function or method was used.
+Keep each `notes/weekN.md` file concise enough to review later, but detailed enough that a complete beginner can understand why each function or method was used.
 
 The completion gate, Week advancement policy, and update procedure are maintained in `.rules/tracking.md`.
 

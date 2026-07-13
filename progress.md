@@ -1,6 +1,6 @@
 # Bootcamp Progress
 
-이 파일은 부트캠프의 현재 실행 상태를 기록하는 단일 원본이다. 교육과정은 `PLAN.md`, 상세 복습 기록은 `review_notes.md`, 갱신 절차는 `.rules/tracking.md`를 따른다.
+이 파일은 부트캠프의 현재 실행 상태를 기록하는 단일 원본이다. 교육과정은 `PLAN.md`, 상세 복습 기록은 `notes/weekN.md`, 갱신 절차는 `.rules/tracking.md`를 따른다.
 
 ## Current State
 
@@ -11,12 +11,12 @@
 | Current Phase | Phase 2 - Machine Learning Foundations |
 | Current Week | 2 |
 | Week Status | In Progress |
-| Current Focus | Baseline modeling concepts and time-series train/test split |
-| Next Session Goal | Feature month와 target month를 정렬하고 1개월 Forecast Horizon에 맞는 학습 데이터를 설계한다. |
+| Current Focus | 시계열 train/test split과 기준 모델(Baseline Model) 준비 |
+| Next Session Goal | 2021-01부터 2024-12까지의 월별 데이터에서 왜 무작위 분할이 위험한지 설명하고, 시간순 train/test split 기준을 정한다. |
 
 ## Completed Evidence
 
-상세한 학습 내용과 함수 설명은 `review_notes.md`에 기록한다.
+상세한 학습 내용과 함수 설명은 해당 주차의 `notes/weekN.md`에 기록한다.
 
 ### Week 1 - Data Analysis Foundations
 
@@ -48,6 +48,11 @@
   - 목표 변수 `industrial_production_index`와 다음 달이라는 예측 대상 시점을 구분했다.
   - Forecast Horizon을 1개월로 정의하고, 설명 변수의 예측 시점 가용성과 Data Leakage 위험을 설명했다.
   - 답안: `answers/code/week2/week2_1.ipynb`, `answers/text/week2/week2_1.txt`
+- Exercise 2 - Feature/target month alignment
+  - 한 학습 행이 feature month의 입력 정보와 target month의 정답을 함께 담는 구조임을 설명했다.
+  - `shift(-1)`로 다음 달 `industrial_production_index`를 `target_next_month`로 만들고, `drop_duplicates()`를 `shift` 전에 적용해야 하는 이유를 확인했다.
+  - 과제 문항이 일반적이었던 한계는 남겼고, 다음 세션부터 구체 날짜와 컬럼 기준으로 문항을 제시하기로 했다.
+  - 답안: `answers/code/week2/week2_2.ipynb`, `answers/text/week2/week2_2.txt`
 
 ## Diagnostic Scores
 
@@ -59,10 +64,10 @@
 | EDA | 6/10 |
 | Visualization | 3/10 |
 | Missing Value Handling | 3/10 |
-| Feature Engineering | 0/10 |
+| Feature Engineering | 1/10 |
 | Model Evaluation | 0/10 |
-| Leakage Awareness | 4/10 |
-| Time-Series Intuition | 5/10 |
+| Leakage Awareness | 5/10 |
+| Time-Series Intuition | 6/10 |
 
 ## Active Weak Areas
 
@@ -72,7 +77,8 @@
 - 그래프가 보여주는 사실과 추가 데이터 확인이 필요한 판단을 구분하기
 - 약한 시각적 관계만으로 변수의 예측 가치를 단정하지 않기
 - 설명 변수를 데이터의 깔끔함이 아니라 예측 시점의 정보 가용성으로 선택하기
-- Data Leakage를 단순한 과적합이 아니라 실제로 사용할 수 없는 정보로 인한 평가 왜곡으로 설명하기
+- Data Leakage를 일반론이 아니라 특정 날짜, 특정 컬럼, feature/target 역할로 설명하기
+- 새 pandas 메서드의 반환값, 원본 변경 여부, 재할당 필요 여부를 구현 전에 확인하기
 
 ## Strong Areas
 
@@ -82,16 +88,17 @@
 
 ## Follow-up Queue
 
-1. Feature month와 target month를 예시 날짜로 명확히 구분한다.
-2. 각 설명 변수 후보가 Prediction Time에 실제로 발표되어 있는지 확인하는 습관을 만든다.
-3. 시계열 데이터에서 무작위 분할이 위험한 이유를 설명한다.
+1. 각 설명 변수 후보가 Prediction Time에 실제로 발표되어 있는지 확인하는 습관을 만든다.
+2. 시계열 데이터에서 무작위 분할이 위험한 이유를 2021-2024 날짜 범위로 설명한다.
+3. 시간순 train/test split의 기준 날짜를 정하고 train과 test의 역할을 구분한다.
 4. 복잡한 모델 전에 사용할 Baseline Model의 역할을 이해한다.
+5. MAE와 RMSE가 예측 오차를 어떻게 요약하는지 이해한다.
 
 ## Week Advancement Evidence
 
 - 현재 판단: Week 2 유지, `In Progress`.
-- 확보된 증거: Exercise 1에서 목표 변수, 예측 대상 시점, 1개월 Forecast Horizon과 Prediction Time의 핵심을 설명했다.
-- 추가로 필요한 증거: feature/target 정렬, 시계열 train/test split, Baseline Model, MAE/RMSE의 기본 이해와 Week 2 Review Check.
+- 확보된 증거: Exercise 1에서 목표 변수, 예측 대상 시점, 1개월 Forecast Horizon과 Prediction Time의 핵심을 설명했다. Exercise 2에서 feature month와 target month 정렬, `target_next_month` 생성, 중복 행 정리 필요성을 확인했다.
+- 추가로 필요한 증거: 시계열 train/test split, Baseline Model, MAE/RMSE의 기본 이해와 Week 2 Review Check.
 - 승급 규칙: 충분한 증거가 모이면 다음 Week로의 이동을 추천하며, 자동으로 변경하지 않는다.
 
 ## Recurring Mistakes
@@ -130,3 +137,13 @@
 
 - 실수: 예측 대상, 모델의 예측값과 예측 시점에 사용할 수 있는 정보를 혼동했다.
 - 교정: 예측 시점에는 그 순간까지 실제로 관측 또는 발표된 정보만 사용할 수 있다.
+
+### Supervised Learning Row Alignment
+
+- 실수: 같은 학습 행에 현재 달 feature와 다음 달 target을 같이 두는 이유가 충분히 설명되지 않은 상태에서 pandas 문법으로 넘어갔다.
+- 교정: 모델은 각 행을 하나의 연습문제로 본다. 한 행은 "현재 시점에 아는 입력값"과 "나중에 맞혀야 하는 정답"을 함께 담아야 한다.
+
+### Exercise Prompt Specificity
+
+- 실수: 과제 질문이 일반적인데 리뷰에서 더 구체적인 답안을 사후 요구했다.
+- 교정: 다음 세션부터 문항에 사용할 컬럼명, 예시 날짜, 예측 시점, target 시점, 기대 답변 범위와 통과 기준을 명시한다.
