@@ -7,12 +7,12 @@
 | Field | Value |
 |---|---|
 | Start Date | 2026-07-09 |
-| Last Updated | 2026-07-13 |
+| Last Updated | 2026-07-14 |
 | Current Phase | Phase 2 - Machine Learning Foundations |
 | Current Week | 2 |
 | Week Status | In Progress |
-| Current Focus | 시계열 train/test split과 기준 모델(Baseline Model) 준비 |
-| Next Session Goal | 2021-01부터 2024-12까지의 월별 데이터에서 왜 무작위 분할이 위험한지 설명하고, 시간순 train/test split 기준을 정한다. |
+| Current Focus | 기준 모델(Baseline Model) 준비 |
+| Next Session Goal | 복잡한 모델 전에 사용할 기준 모델의 역할을 이해하고, 다음 달 산업생산지수 예측에서 단순한 기준 예측을 정의한다. |
 
 ## Completed Evidence
 
@@ -53,6 +53,10 @@
   - `shift(-1)`로 다음 달 `industrial_production_index`를 `target_next_month`로 만들고, `drop_duplicates()`를 `shift` 전에 적용해야 하는 이유를 확인했다.
   - 과제 문항이 일반적이었던 한계는 남겼고, 다음 세션부터 구체 날짜와 컬럼 기준으로 문항을 제시하기로 했다.
   - 답안: `answers/code/week2/week2_2.ipynb`, `answers/text/week2/week2_2.txt`
+- Exercise 3 - Time-series train/test split
+  - `target_next_month`가 없는 행을 제외하고, 2021-01-31부터 2023-12-31까지를 train, 2024-01-31부터 2024-11-30까지를 test로 나눴다.
+  - 무작위 8:2 분할과 시간순 8:2 분할을 구분하고, 미래 데이터가 train에 섞이면 평가가 비현실적이 된다는 점을 확인했다.
+  - 답안: `answers/code/week2/week2_3.ipynb`, `answers/text/week2/week2_3.txt`
 
 ## Diagnostic Scores
 
@@ -66,8 +70,8 @@
 | Missing Value Handling | 3/10 |
 | Feature Engineering | 1/10 |
 | Model Evaluation | 0/10 |
-| Leakage Awareness | 5/10 |
-| Time-Series Intuition | 6/10 |
+| Leakage Awareness | 6/10 |
+| Time-Series Intuition | 7/10 |
 
 ## Active Weak Areas
 
@@ -77,8 +81,8 @@
 - 그래프가 보여주는 사실과 추가 데이터 확인이 필요한 판단을 구분하기
 - 약한 시각적 관계만으로 변수의 예측 가치를 단정하지 않기
 - 설명 변수를 데이터의 깔끔함이 아니라 예측 시점의 정보 가용성으로 선택하기
-- Data Leakage를 일반론이 아니라 특정 날짜, 특정 컬럼, feature/target 역할로 설명하기
 - 새 pandas 메서드의 반환값, 원본 변경 여부, 재할당 필요 여부를 구현 전에 확인하기
+- 과제 질문의 표현이 `month`인지 정확한 `date`인지에 따라 답변 기준을 일관되게 맞추기
 
 ## Strong Areas
 
@@ -89,16 +93,15 @@
 ## Follow-up Queue
 
 1. 각 설명 변수 후보가 Prediction Time에 실제로 발표되어 있는지 확인하는 습관을 만든다.
-2. 시계열 데이터에서 무작위 분할이 위험한 이유를 2021-2024 날짜 범위로 설명한다.
-3. 시간순 train/test split의 기준 날짜를 정하고 train과 test의 역할을 구분한다.
-4. 복잡한 모델 전에 사용할 Baseline Model의 역할을 이해한다.
-5. MAE와 RMSE가 예측 오차를 어떻게 요약하는지 이해한다.
+2. 복잡한 모델 전에 사용할 Baseline Model의 역할을 이해한다.
+3. MAE와 RMSE가 예측 오차를 어떻게 요약하는지 이해한다.
+4. 시간순 train/test split이 코드와 글 답안에서 같은 기준으로 설명되는지 확인한다.
 
 ## Week Advancement Evidence
 
 - 현재 판단: Week 2 유지, `In Progress`.
-- 확보된 증거: Exercise 1에서 목표 변수, 예측 대상 시점, 1개월 Forecast Horizon과 Prediction Time의 핵심을 설명했다. Exercise 2에서 feature month와 target month 정렬, `target_next_month` 생성, 중복 행 정리 필요성을 확인했다.
-- 추가로 필요한 증거: 시계열 train/test split, Baseline Model, MAE/RMSE의 기본 이해와 Week 2 Review Check.
+- 확보된 증거: Exercise 1에서 목표 변수, 예측 대상 시점, 1개월 Forecast Horizon과 Prediction Time의 핵심을 설명했다. Exercise 2에서 feature month와 target month 정렬, `target_next_month` 생성, 중복 행 정리 필요성을 확인했다. Exercise 3에서 시간순 train/test split 기준과 무작위 분할 위험을 확인했다.
+- 추가로 필요한 증거: Baseline Model, MAE/RMSE의 기본 이해와 Week 2 Review Check.
 - 승급 규칙: 충분한 증거가 모이면 다음 Week로의 이동을 추천하며, 자동으로 변경하지 않는다.
 
 ## Recurring Mistakes
@@ -147,3 +150,8 @@
 
 - 실수: 과제 질문이 일반적인데 리뷰에서 더 구체적인 답안을 사후 요구했다.
 - 교정: 다음 세션부터 문항에 사용할 컬럼명, 예시 날짜, 예측 시점, target 시점, 기대 답변 범위와 통과 기준을 명시한다.
+
+### Month and Date Wording
+
+- 실수: 질문에는 `month`라고 표현했지만 리뷰에서는 정확한 일자까지 요구해 평가 기준이 흔들렸다.
+- 교정: `month`를 묻는 문항은 월 단위 이해를 기준으로 판단하고, 정확한 날짜가 필요하면 질문과 통과 기준에 `date`를 명시한다.
