@@ -1,0 +1,20 @@
+# Data Analysis & Manipulation
+pandas
+numpy
+
+# Data Visualization
+matplotlib
+seaborn
+
+# Machine Learning Foundations
+scikit-learn
+xgboost
+lightgbm
+
+# Time-Series Forecasting
+statsmodels
+prophet
+
+# Development
+jupyter
+ipykernel
