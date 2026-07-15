@@ -243,3 +243,94 @@
 - 무작위 8:2 분할이 위험한 이유는 미래 시점의 데이터가 train에 섞일 수 있기 때문이다.
 - 시간순으로 정렬한 뒤 앞 구간을 train, 뒤 구간을 test로 나누는 8:2 방식은 시계열 평가 원칙에 맞을 수 있다.
 - 다음 단계에서는 이 train/test 구조 위에서 기준 모델(Baseline Model)을 만든다.
+
+---
+
+### Week 2 Exercise 4 - Baseline Prediction Definition
+
+완료 상태: 완료
+
+사용한 데이터셋:
+
+- `data/week1_macro_practice.csv`
+
+답안:
+
+- `answers/code/week2/week2_4.ipynb`
+- `answers/text/week2/week2_4.txt`
+
+실습 목표:
+
+- 복잡한 ML 모델 전에 비교 기준으로 사용할 기준 모델(Baseline Model)을 정의한다.
+- 다음 달도 이번 달과 같을 것이라는 단순 기준 예측을 만든다.
+- `baseline_pred_next_month`의 값 출처와 예측 대상 시점을 구분한다.
+- 예측값을 `target_next_month`에서 가져오지 않고 feature month의 `industrial_production_index`에서 가져와야 함을 이해한다.
+- `drop_duplicates()` 결과를 재할당한 뒤 `shift(-1)`을 실행해야 함을 다시 확인한다.
+
+배운 내용:
+
+- 기준 모델(Baseline Model)은 복잡한 모델이 최소한 이겨야 하는 비교 기준이다.
+- 이번 기준 모델의 규칙은 "다음 달 `industrial_production_index`도 이번 달 `industrial_production_index`와 같을 것이다"이다.
+- `baseline_pred_next_month`는 다음 달을 예측한 값이지만, 그 값의 출처는 같은 행의 feature month `industrial_production_index`다.
+- 예를 들어 `2024-01-31` 행에서는:
+  - prediction time: `2024-01-31`
+  - target time: `2024-02-29`
+  - feature로 사용할 수 있는 값: `2024-01-31`의 `industrial_production_index` = `108.4`
+  - 실제 정답: `2024-02-29`의 `industrial_production_index`, 즉 `target_next_month` = `108.9`
+  - 기준 모델 예측값: `baseline_pred_next_month` = `108.4`
+- 같은 숫자라도 행에 따라 역할이 달라질 수 있다.
+  - `2024-02-29`의 실제 산업생산지수는 `2024-01-31` 행에서는 target이고, `2024-02-29` 행에서는 feature month의 현재값이다.
+- `target_next_month`를 예측값으로 복사하면 실제 정답을 미리 본 것이므로 Data Leakage가 된다.
+- 상대경로는 notebook 파일 위치가 아니라 현재 작업 폴더(current working directory) 기준으로 해석될 수 있다.
+  - 프로젝트 루트가 현재 작업 폴더이면 `data/week1_macro_practice.csv`가 맞다.
+  - 현재 작업 폴더가 `answers/code/week2`이면 같은 파일을 가리키려면 `../../../data/week1_macro_practice.csv`처럼 상위 폴더 이동이 필요하다.
+  - `os.getcwd()`로 현재 작업 폴더를 확인할 수 있다.
+
+사용한 기존 함수/메서드:
+
+- `pd.read_csv()`: 원본 경제 데이터를 불러오는 데 사용했다.
+- `pd.to_datetime()`: `date` 컬럼과 날짜 기준값을 비교 가능한 날짜형으로 변환하는 데 사용했다.
+- `.sort_values()`: `shift(-1)` 전에 날짜순 정렬을 보장하는 데 사용했다.
+- `.drop_duplicates()`: `2022-06-30` 중복 행을 제거해 `shift(-1)`이 같은 달 중복 행을 다음 target처럼 가져오지 않도록 했다.
+- `.shift(-1)`: 다음 행의 `industrial_production_index`를 현재 행의 `target_next_month`로 가져오는 데 사용했다.
+- `.dropna(subset=["target_next_month"])`: 다음 달 정답이 없는 마지막 행을 학습 및 평가 후보에서 제외하는 데 사용했다.
+- Boolean Filtering과 `&`: feature month 기준으로 train과 test 구간을 나누는 데 사용했다.
+- `.copy()`: train과 test를 독립적인 DataFrame으로 다루는 데 사용했다.
+
+새로 배운 개념:
+
+#### Baseline Model
+
+- 역할: 복잡한 모델과 비교할 최소 기준을 만든다.
+- 왜 필요한가: ML 모델이 단순 기준보다 못하면, 복잡한 모델이 실제로 의미 있는 패턴을 배웠다고 보기 어렵기 때문이다.
+- 이번 실습의 기준 규칙: 다음 달 값은 이번 달 값과 같다고 예측한다.
+- 반환값: 특정 함수의 반환값이 아니라, 규칙에 따라 만든 예측 컬럼 `baseline_pred_next_month`.
+- 원본을 바꾸는가: `test["baseline_pred_next_month"] = ...`처럼 새 컬럼을 만들면 `test` DataFrame에 컬럼이 추가된다.
+- 다시 저장해야 하는가: 새 컬럼 대입은 별도 재할당이 필요 없지만, 이후 계속 쓸 DataFrame이 `test`인지 확인해야 한다.
+- 모델링 주의점: `target_next_month`를 baseline 예측값으로 쓰면 정답을 복사하는 것이므로 Data Leakage다.
+
+#### Current Working Directory
+
+- 역할: 상대경로를 해석할 기준 폴더다.
+- 왜 필요한가: 같은 `data/week1_macro_practice.csv`라도 notebook 커널이 어느 폴더에서 실행되는지에 따라 성공하거나 실패할 수 있기 때문이다.
+- 확인 방법: `os.getcwd()`를 실행한다.
+- 반환값: 현재 작업 폴더 경로 문자열.
+- 원본을 바꾸는가: `os.getcwd()`는 현재 작업 폴더를 조회만 하며 바꾸지 않는다.
+- 다시 저장해야 하는가: 확인 결과를 계속 쓰려면 변수에 저장할 수 있지만, 단순 확인만 할 때는 재할당이 필요 없다.
+- 모델링 주의점: 경로가 깨져 다른 파일을 읽거나 파일을 읽지 못하면, 이후 모델링 결과를 신뢰할 수 없다.
+
+수정된 실수:
+
+- 처음에는 `drop_duplicates()`를 실행만 하고 재할당하지 않아 중복 행이 남은 상태로 `shift(-1)`이 실행되었다.
+- 이후 `ds = ds.drop_duplicates()`로 수정하고 notebook을 다시 실행해 `2022-06-30` 중복 행이 한 행만 남는 것을 확인했다.
+- 처음에는 수정 후 저장된 출력이 오래된 실행 결과와 섞여 있었지만, 이후 전체 셀을 다시 실행해 코드와 출력이 일치하도록 정리했다.
+- 상대경로가 실패한 이유를 코드 문법 문제가 아니라 notebook의 현재 작업 폴더 문제로 구분했다.
+
+핵심 정리:
+
+- 기준 모델은 최종 모델이 아니라 복잡한 모델이 이겨야 하는 최소 비교 기준이다.
+- 이번 기준 모델의 예측값은 feature month의 현재 산업생산지수에서 가져오고, 예측 대상은 target month의 산업생산지수다.
+- `baseline_pred_next_month`와 `target_next_month`가 같은 뜻은 아니다.
+- `target_next_month`는 실제 정답이고, `baseline_pred_next_month`는 예측 시점에 알 수 있는 현재값으로 만든 예측값이다.
+- pandas 메서드가 새 DataFrame을 반환하는지 원본을 바꾸는지 확인하고, 필요한 경우 반드시 재할당해야 한다.
+- notebook의 상대경로 문제는 `os.getcwd()`로 현재 작업 폴더를 확인한 뒤 판단한다.
