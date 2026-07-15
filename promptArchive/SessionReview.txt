@@ -1,0 +1,17 @@
+AGENTS.md와 `.rules/review.md`의 절차에 따라 아래 제출물을 리뷰해줘.
+
+검토할 파일:
+
+1. answers/code/week2/week2_4.ipynb
+2. answers/text/week2/week2_4.txt
+
+Correctness, Modeling Logic, Data Leakage Risk, Evaluation Quality, Possible Improvements를 확인해줘.
+
+중요:
+과제 질문이 모호했다면 그 모호함 때문에 나온 일반적인 답변을 핵심 오답으로 몰지 말고,
+필요한 구체성은 보완 질문으로 분리해줘.
+
+새로운 pandas/Python/sklearn 문법이나 모델링 개념을 지적할 때는
+왜 필요한지, 주요 인수, 반환값, 원본 변경 여부, 재할당 필요 여부를 설명해줘.
+
+정답을 바로 제시하지 말고 `Hint → Guidance → Partial Solution` 순서로 진행해줘. Full Solution은 내가 명시적으로 요청한 경우에만 제공해줘.

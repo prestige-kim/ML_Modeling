@@ -3,13 +3,6 @@
 .ipynb_checkpoints/
 __pycache__/
 *.py[cod]
-
-# Local bootcamp operations and personal learning records
+requirements.txt
 AGENTS.md
 .rules/
-PLAN.md
-progress.md
-notes/
-answers/
-promptArchive/
-scripts/validate_bootcamp.py
