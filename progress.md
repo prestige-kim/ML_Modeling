@@ -7,12 +7,12 @@
 | Field | Value |
 |---|---|
 | Start Date | 2026-07-09 |
-| Last Updated | 2026-07-15 |
+| Last Updated | 2026-07-17 |
 | Current Phase | Phase 2 - Machine Learning Foundations |
 | Current Week | 2 |
 | Week Status | In Progress |
-| Current Focus | 기준 모델(Baseline Model) 평가 준비 |
-| Next Session Goal | MAE와 RMSE가 예측 오차를 어떻게 요약하는지 이해하고, 기준 모델의 다음 달 산업생산지수 예측 성능을 평가한다. |
+| Current Focus | Week 2 Review Check 준비 |
+| Next Session Goal | Week 2 핵심 흐름인 예측 문제 정의, feature/target 정렬, 시간순 분할, 기준 모델 평가를 하나의 흐름으로 다시 설명하고 점검한다. |
 
 ## Completed Evidence
 
@@ -61,6 +61,10 @@
   - 다음 달도 이번 달과 같을 것이라는 기준 모델을 정의하고, `baseline_pred_next_month`를 feature month의 `industrial_production_index`에서 만들었다.
   - `target_next_month`를 예측값으로 복사하지 않아야 하는 이유와 예측값의 출처와 예측 대상 시점의 차이를 확인했다.
   - 답안: `answers/code/week2/week2_4.ipynb`, `answers/text/week2/week2_4.txt`
+- Exercise 5 - Baseline evaluation with MAE/MSE/RMSE
+  - test 구간 11행에서 기준 모델의 `baseline_pred_next_month`와 `target_next_month`의 오차를 계산했다.
+  - MAE, MSE, RMSE의 계산 의미를 구분하고, RMSE가 원래 target 단위로 해석된다는 점을 확인했다.
+  - 답안: `answers/code/week2/week2_5.ipynb`, `answers/text/week2/week2_5.txt`
 
 ## Diagnostic Scores
 
@@ -73,7 +77,7 @@
 | Visualization | 3/10 |
 | Missing Value Handling | 3/10 |
 | Feature Engineering | 1/10 |
-| Model Evaluation | 1/10 |
+| Model Evaluation | 2/10 |
 | Leakage Awareness | 7/10 |
 | Time-Series Intuition | 8/10 |
 
@@ -98,15 +102,14 @@
 ## Follow-up Queue
 
 1. 각 설명 변수 후보가 Prediction Time에 실제로 발표되어 있는지 확인하는 습관을 만든다.
-2. MAE와 RMSE가 예측 오차를 어떻게 요약하는지 이해한다.
-3. 기준 모델의 예측값과 실제 target의 차이를 평가 지표로 계산한다.
-4. 시간순 train/test split이 코드와 글 답안에서 같은 기준으로 설명되는지 확인한다.
+2. 시간순 train/test split이 코드와 글 답안에서 같은 기준으로 설명되는지 확인한다.
+3. Week 2 Review Check에서 예측 문제 정의부터 기준 모델 평가까지 한 흐름으로 재현한다.
 
 ## Week Advancement Evidence
 
 - 현재 판단: Week 2 유지, `In Progress`.
-- 확보된 증거: Exercise 1에서 목표 변수, 예측 대상 시점, 1개월 Forecast Horizon과 Prediction Time의 핵심을 설명했다. Exercise 2에서 feature month와 target month 정렬, `target_next_month` 생성, 중복 행 정리 필요성을 확인했다. Exercise 3에서 시간순 train/test split 기준과 무작위 분할 위험을 확인했다. Exercise 4에서 기준 모델의 예측값을 feature month의 `industrial_production_index`에서 만들고, target을 복사하지 않아야 함을 확인했다.
-- 추가로 필요한 증거: MAE/RMSE의 기본 이해와 Week 2 Review Check.
+- 확보된 증거: Exercise 1에서 목표 변수, 예측 대상 시점, 1개월 Forecast Horizon과 Prediction Time의 핵심을 설명했다. Exercise 2에서 feature month와 target month 정렬, `target_next_month` 생성, 중복 행 정리 필요성을 확인했다. Exercise 3에서 시간순 train/test split 기준과 무작위 분할 위험을 확인했다. Exercise 4에서 기준 모델의 예측값을 feature month의 `industrial_production_index`에서 만들고, target을 복사하지 않아야 함을 확인했다. Exercise 5에서 MAE, MSE, RMSE를 계산하고 기준 모델의 test 성능을 해석했다.
+- 추가로 필요한 증거: Week 2 Review Check.
 - 승급 규칙: 충분한 증거가 모이면 다음 Week로의 이동을 추천하며, 자동으로 변경하지 않는다.
 
 ## Recurring Mistakes
