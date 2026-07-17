@@ -10,9 +10,9 @@
 | Last Updated | 2026-07-17 |
 | Current Phase | Phase 2 - Machine Learning Foundations |
 | Current Week | 2 |
-| Week Status | In Progress |
-| Current Focus | Week 2 Review Check 준비 |
-| Next Session Goal | Week 2 핵심 흐름인 예측 문제 정의, feature/target 정렬, 시간순 분할, 기준 모델 평가를 하나의 흐름으로 다시 설명하고 점검한다. |
+| Week Status | Completed |
+| Current Focus | Week 2 완료 증거 확인 및 Week 3 진입 여부 결정 |
+| Next Session Goal | Week 3 Feature Engineering으로 넘어갈지 확인한 뒤, lag feature를 예측 시점 기준으로 안전하게 만드는 개념을 시작한다. |
 
 ## Completed Evidence
 
@@ -65,6 +65,10 @@
   - test 구간 11행에서 기준 모델의 `baseline_pred_next_month`와 `target_next_month`의 오차를 계산했다.
   - MAE, MSE, RMSE의 계산 의미를 구분하고, RMSE가 원래 target 단위로 해석된다는 점을 확인했다.
   - 답안: `answers/code/week2/week2_5.ipynb`, `answers/text/week2/week2_5.txt`
+- Week 2 Review Check - End-to-end baseline modeling review
+  - 예측 문제 정의, feature/target 정렬, 시간순 train/test split, 기준 모델 예측과 MAE/MSE/RMSE 평가를 하나의 흐름으로 재현했다.
+  - `target_next_month`는 실제 정답이고 `baseline_pred_next_month`는 feature month의 현재 산업생산지수에서 나온 예측값임을 구분했다.
+  - 답안: `answers/code/week2/week2_review.ipynb`, `answers/text/week2/week2_review.txt`
 
 ## Diagnostic Scores
 
@@ -77,8 +81,8 @@
 | Visualization | 3/10 |
 | Missing Value Handling | 3/10 |
 | Feature Engineering | 1/10 |
-| Model Evaluation | 2/10 |
-| Leakage Awareness | 7/10 |
+| Model Evaluation | 3/10 |
+| Leakage Awareness | 8/10 |
 | Time-Series Intuition | 8/10 |
 
 ## Active Weak Areas
@@ -88,7 +92,6 @@
 - 결측치 처리 결정을 컬럼 의미와 예측 목적에 따라 설명하기
 - 그래프가 보여주는 사실과 추가 데이터 확인이 필요한 판단을 구분하기
 - 약한 시각적 관계만으로 변수의 예측 가치를 단정하지 않기
-- 설명 변수를 데이터의 깔끔함이 아니라 예측 시점의 정보 가용성으로 선택하기
 - 새 pandas 메서드의 반환값, 원본 변경 여부, 재할당 필요 여부를 구현 전에 확인하기
 - 과제 질문의 표현이 `month`인지 정확한 `date`인지에 따라 답변 기준을 일관되게 맞추기
 - notebook에서 상대경로를 사용할 때 현재 작업 폴더(`os.getcwd()`)를 먼저 확인하기
@@ -102,14 +105,14 @@
 ## Follow-up Queue
 
 1. 각 설명 변수 후보가 Prediction Time에 실제로 발표되어 있는지 확인하는 습관을 만든다.
-2. 시간순 train/test split이 코드와 글 답안에서 같은 기준으로 설명되는지 확인한다.
-3. Week 2 Review Check에서 예측 문제 정의부터 기준 모델 평가까지 한 흐름으로 재현한다.
+2. Week 3에서 lag feature를 만들 때 예측 시점에 사용할 수 있는 정보만 포함되는지 확인한다.
+3. notebook에서 절대경로 대신 현재 작업 폴더를 확인하고 저장소 상대경로를 사용하는 습관을 만든다.
 
 ## Week Advancement Evidence
 
-- 현재 판단: Week 2 유지, `In Progress`.
-- 확보된 증거: Exercise 1에서 목표 변수, 예측 대상 시점, 1개월 Forecast Horizon과 Prediction Time의 핵심을 설명했다. Exercise 2에서 feature month와 target month 정렬, `target_next_month` 생성, 중복 행 정리 필요성을 확인했다. Exercise 3에서 시간순 train/test split 기준과 무작위 분할 위험을 확인했다. Exercise 4에서 기준 모델의 예측값을 feature month의 `industrial_production_index`에서 만들고, target을 복사하지 않아야 함을 확인했다. Exercise 5에서 MAE, MSE, RMSE를 계산하고 기준 모델의 test 성능을 해석했다.
-- 추가로 필요한 증거: Week 2 Review Check.
+- 현재 판단: Week 2 Review Check 완료. Week 3 진입을 추천할 수 있다.
+- 확보된 증거: Exercise 1에서 목표 변수, 예측 대상 시점, 1개월 Forecast Horizon과 Prediction Time의 핵심을 설명했다. Exercise 2에서 feature month와 target month 정렬, `target_next_month` 생성, 중복 행 정리 필요성을 확인했다. Exercise 3에서 시간순 train/test split 기준과 무작위 분할 위험을 확인했다. Exercise 4에서 기준 모델의 예측값을 feature month의 `industrial_production_index`에서 만들고, target을 복사하지 않아야 함을 확인했다. Exercise 5에서 MAE, MSE, RMSE를 계산하고 기준 모델의 test 성능을 해석했다. Week 2 Review Check에서 전체 흐름을 재현하고, test 11행의 기준 모델 평가 지표를 계산 및 설명했다.
+- 추가로 필요한 증거: Week 3 진입 전 사용자 동의.
 - 승급 규칙: 충분한 증거가 모이면 다음 Week로의 이동을 추천하며, 자동으로 변경하지 않는다.
 
 ## Recurring Mistakes

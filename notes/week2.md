@@ -446,3 +446,61 @@
 - RMSE는 큰 오차를 민감하게 반영하면서 원래 target 단위로 읽을 수 있다.
 - MAE와 RMSE를 함께 보면 평균적인 오차 크기와 큰 오차 가능성을 같이 점검할 수 있다.
 - 평가 지표가 0에 가까워도 target을 예측값으로 사용했다면 좋은 모델이 아니라 Data Leakage다.
+
+---
+
+### Week 2 Review Check - End-to-End Baseline Modeling Review
+
+완료 상태: 완료
+
+사용한 데이터셋:
+
+- `data/week1_macro_practice.csv`
+
+답안:
+
+- `answers/code/week2/week2_review.ipynb`
+- `answers/text/week2/week2_review.txt`
+
+실습 목표:
+
+- 예측 문제 정의부터 기준 모델 평가까지 Week 2의 핵심 흐름을 하나로 재현한다.
+- 목표 변수, Prediction Time, target time, Forecast Horizon을 구분한다.
+- `shift(-1)`로 만든 `target_next_month`와 기준 모델 예측값 `baseline_pred_next_month`의 역할을 구분한다.
+- feature month 기준으로 train/test를 시간순으로 나누고, test 11행에서 MAE, MSE, RMSE를 계산한다.
+- `target_next_month`를 예측값으로 복사하는 것이 Data Leakage임을 설명한다.
+
+배운 내용:
+
+- 목표 변수는 `industrial_production_index`이고, 이번 예측 문제의 target time은 다음 달이다.
+- `2024-01-31` feature month는 `2024-02-29`의 `industrial_production_index`를 예측한다.
+- `target_next_month`는 실제 정답이고, `baseline_pred_next_month`는 feature month의 현재 `industrial_production_index`에서 만든 예측값이다.
+- test 구간은 feature month 기준 `2024-01-31`부터 `2024-11-30`까지 11행이다.
+- 기준 모델의 성능은 MAE 약 `0.4455`, MSE 약 `0.2118`, RMSE 약 `0.4602`로 계산되었다.
+- `target_next_month`를 예측값으로 쓰면 예측 시점에 알 수 없는 실제 정답을 미리 본 것이므로 Data Leakage다.
+
+사용한 기존 함수/메서드:
+
+- `pd.read_csv()`: 원본 데이터를 불러오는 데 사용했다.
+- `pd.to_datetime()`: 날짜 컬럼과 기준 날짜를 비교 가능한 날짜형으로 변환하는 데 사용했다.
+- `.sort_values()`: `shift(-1)` 전에 날짜순 정렬을 보장하는 데 사용했다.
+- `.drop_duplicates()`: 중복 행이 target 정렬을 왜곡하지 않도록 사용했다.
+- `.shift(-1)`: 다음 행의 `industrial_production_index`를 현재 행의 `target_next_month`로 가져오는 데 사용했다.
+- `.dropna(subset=...)`: 다음 달 정답이 없는 행을 평가 후보에서 제외하는 데 사용했다.
+- Boolean Filtering과 `&`: train/test 구간을 날짜 조건으로 나누는 데 사용했다.
+- `.copy()`: 필터링한 test 데이터를 독립적인 DataFrame으로 다루기 위해 사용했다.
+- `.abs()`, `.mean()`, `** 2`, `np.sqrt()`: MAE, MSE, RMSE를 계산하는 데 사용했다.
+
+수정된 실수:
+
+- 목표 변수를 "한 달 뒤 값"으로만 표현하던 것을 `industrial_production_index`와 다음 달 target time으로 구분했다.
+- `shift(-1)`로 가져오는 값이 예측값이 아니라 실제 정답 target임을 더 명확히 했다.
+- `target_next_month`를 예측값으로 쓰는 문제를 과적합보다 Data Leakage 관점으로 설명했다.
+- text 답안에 MAE, MSE, RMSE 계산값을 함께 기록했다.
+- 필터링한 test 데이터에 새 컬럼을 추가하기 전에 `.copy()`를 적용했다.
+
+핵심 정리:
+
+- Week 2의 핵심은 모델을 복잡하게 만드는 것이 아니라, 한 행이 "현재 알 수 있는 정보로 다음 달 정답을 맞히는 사례"가 되도록 표를 안전하게 만드는 것이다.
+- 시간순 train/test split과 기준 모델 평가는 실제 예측 상황에 가까운 성능 확인을 위한 최소 조건이다.
+- 좋은 평가 숫자보다 먼저 확인해야 할 것은 예측 시점에 사용할 수 없는 정보가 섞였는지 여부다.
