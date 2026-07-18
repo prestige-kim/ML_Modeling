@@ -7,12 +7,12 @@
 | Field | Value |
 |---|---|
 | Start Date | 2026-07-09 |
-| Last Updated | 2026-07-17 |
+| Last Updated | 2026-07-18 |
 | Current Phase | Phase 3 - Feature Engineering |
 | Current Week | 3 |
 | Week Status | In Progress |
-| Current Focus | Lag feature를 예측 시점 기준으로 안전하게 만드는 개념 시작 |
-| Next Session Goal | `industrial_production_index_lag1`을 만들기 전에 feature month, target month, lag source month를 구분한다. |
+| Current Focus | `shift(1)`로 과거 값을 현재 행의 lag feature로 정렬하는 개념 확인 |
+| Next Session Goal | 실제 데이터에서 `industrial_production_index_lag1`을 만들고, 첫 행의 결측과 날짜 정렬을 확인한다. |
 
 ## Completed Evidence
 
@@ -70,6 +70,13 @@
   - `target_next_month`는 실제 정답이고 `baseline_pred_next_month`는 feature month의 현재 산업생산지수에서 나온 예측값임을 구분했다.
   - 답안: `answers/code/week2/week2_review.ipynb`, `answers/text/week2/week2_review.txt`
 
+### Week 3 - Feature Engineering
+
+- Exercise 1 - Lag feature direction concept
+  - `2024-02-29` 행을 기준으로 `target_next_month`는 2024년 3월 값, `industrial_production_index_lag1`은 2024년 1월 값이어야 함을 구분했다.
+  - lag feature는 과거 값을 현재 행으로 가져오므로 `shift(1)`을 사용해야 하고, 반대 방향은 예측 시점에 알 수 없는 미래 정보를 feature에 넣는 Data Leakage가 될 수 있음을 설명했다.
+  - 답안: `answers/text/week3/week3_1.txt`
+
 ## Diagnostic Scores
 
 점수 범위는 0부터 10까지다. Exercise 리뷰에서 확인된 증거가 있을 때만 변경한다.
@@ -80,7 +87,7 @@
 | EDA | 6/10 |
 | Visualization | 3/10 |
 | Missing Value Handling | 3/10 |
-| Feature Engineering | 1/10 |
+| Feature Engineering | 2/10 |
 | Model Evaluation | 3/10 |
 | Leakage Awareness | 8/10 |
 | Time-Series Intuition | 8/10 |
@@ -105,14 +112,14 @@
 ## Follow-up Queue
 
 1. 각 설명 변수 후보가 Prediction Time에 실제로 발표되어 있는지 확인하는 습관을 만든다.
-2. Week 3에서 lag feature를 만들 때 예측 시점에 사용할 수 있는 정보만 포함되는지 확인한다.
+2. Week 3에서 실제 lag feature 생성 후 첫 행 결측과 날짜별 정렬 결과를 직접 확인한다.
 3. notebook에서 절대경로 대신 현재 작업 폴더를 확인하고 저장소 상대경로를 사용하는 습관을 만든다.
 
 ## Week Advancement Evidence
 
 - 현재 판단: 사용자 동의에 따라 Week 3 Feature Engineering으로 진입했다.
 - 확보된 증거: Exercise 1에서 목표 변수, 예측 대상 시점, 1개월 Forecast Horizon과 Prediction Time의 핵심을 설명했다. Exercise 2에서 feature month와 target month 정렬, `target_next_month` 생성, 중복 행 정리 필요성을 확인했다. Exercise 3에서 시간순 train/test split 기준과 무작위 분할 위험을 확인했다. Exercise 4에서 기준 모델의 예측값을 feature month의 `industrial_production_index`에서 만들고, target을 복사하지 않아야 함을 확인했다. Exercise 5에서 MAE, MSE, RMSE를 계산하고 기준 모델의 test 성능을 해석했다. Week 2 Review Check에서 전체 흐름을 재현하고, test 11행의 기준 모델 평가 지표를 계산 및 설명했다.
-- 추가로 필요한 증거: Week 3 Exercise 1에서 lag feature의 방향과 Data Leakage 위험을 설명하는 답안.
+- 추가로 필요한 증거: Week 3 Exercise 2에서 실제 데이터로 lag feature를 만들고, 첫 행 결측과 예측 시점 기준의 사용 가능성을 확인하는 코드와 설명.
 - 승급 규칙: 충분한 증거가 모이면 다음 Week로의 이동을 추천하며, 자동으로 변경하지 않는다.
 
 ## Recurring Mistakes
