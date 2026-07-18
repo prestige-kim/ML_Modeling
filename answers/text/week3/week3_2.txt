@@ -1,0 +1,15 @@
+  1. 2024-02-29 행에서 industrial_production_index_lag1 값은 어느 날짜의 industrial_production_index에서 온 값인가요?
+    > 24년 1월의 산업생산지수
+
+  2. 2024-02-29 행에서 target_next_month 값은 어느 날짜의 industrial_production_index를 의미하나요?
+    > 24년 3월의 산업생산지수
+
+  3. 첫 번째 행의 industrial_production_index_lag1이 결측값인 이유는 무엇인가요?
+    > industrial_production_index_lag1는 전 달의 산업생산지수를 가져오는데 첫 번째 달인 21년 1월의 전달인 20년 12월 데이터는 없기 때문에 NaN 이다. 
+
+  4. industrial_production_index_lag1을 만들 때 shift(1)을 사용해야 하는 이유를 예측 시점 기준으로 설명하세요.
+    > shift(1) 은 이전 데이터를 현재로 가져오는 방향으로 shift 하기 때문에 사용한다. 예측 시점이 24년 2월이라면 24년 1월 데이터를 가져와야 하기 때문에 shift(1) 을 통해 
+    데이터를 가져온다. 
+
+  5. 만약 lag feature를 만들 때 shift(-1)을 사용하면 어떤 Data Leakage 문제가 생기나요?
+    > lag feature 를 shift(-1) 로 데이터를 가져오면 현재 시점에서는 알 수 없는 미래의 값인 24년 3월의 산업생산지수를 가져오기 때문에 데이터 누수가 발생하는 것이다. 

@@ -11,8 +11,8 @@
 | Current Phase | Phase 3 - Feature Engineering |
 | Current Week | 3 |
 | Week Status | In Progress |
-| Current Focus | `shift(1)`로 과거 값을 현재 행의 lag feature로 정렬하는 개념 확인 |
-| Next Session Goal | 실제 데이터에서 `industrial_production_index_lag1`을 만들고, 첫 행의 결측과 날짜 정렬을 확인한다. |
+| Current Focus | 실제 데이터에서 `industrial_production_index_lag1`의 날짜 정렬과 Data Leakage 위험 확인 |
+| Next Session Goal | lag feature가 모델 입력 후보로 어떤 의미를 갖는지 확인하고, 결측 행을 모델링 전에 어떻게 다룰지 판단한다. |
 
 ## Completed Evidence
 
@@ -76,6 +76,10 @@
   - `2024-02-29` 행을 기준으로 `target_next_month`는 2024년 3월 값, `industrial_production_index_lag1`은 2024년 1월 값이어야 함을 구분했다.
   - lag feature는 과거 값을 현재 행으로 가져오므로 `shift(1)`을 사용해야 하고, 반대 방향은 예측 시점에 알 수 없는 미래 정보를 feature에 넣는 Data Leakage가 될 수 있음을 설명했다.
   - 답안: `answers/text/week3/week3_1.txt`
+- Exercise 2 - Lag feature creation on real data
+  - 실제 데이터에서 `industrial_production_index_lag1`과 `target_next_month`를 만들고, `2024-02-29` 행의 lag source date와 target date를 확인했다.
+  - 첫 행의 lag 결측 이유와 `shift(-1)`을 feature로 사용할 때 생기는 미래 정보 누수 위험을 설명했다.
+  - 답안: `answers/code/week3/week3_2.ipynb`, `answers/text/week3/week3_2.txt`
 
 ## Diagnostic Scores
 
@@ -87,7 +91,7 @@
 | EDA | 6/10 |
 | Visualization | 3/10 |
 | Missing Value Handling | 3/10 |
-| Feature Engineering | 2/10 |
+| Feature Engineering | 3/10 |
 | Model Evaluation | 3/10 |
 | Leakage Awareness | 8/10 |
 | Time-Series Intuition | 8/10 |
@@ -99,7 +103,6 @@
 - 결측치 처리 결정을 컬럼 의미와 예측 목적에 따라 설명하기
 - 그래프가 보여주는 사실과 추가 데이터 확인이 필요한 판단을 구분하기
 - 약한 시각적 관계만으로 변수의 예측 가치를 단정하지 않기
-- 새 pandas 메서드의 반환값, 원본 변경 여부, 재할당 필요 여부를 구현 전에 확인하기
 - 과제 질문의 표현이 `month`인지 정확한 `date`인지에 따라 답변 기준을 일관되게 맞추기
 - notebook에서 상대경로를 사용할 때 현재 작업 폴더(`os.getcwd()`)를 먼저 확인하기
 
@@ -112,14 +115,15 @@
 ## Follow-up Queue
 
 1. 각 설명 변수 후보가 Prediction Time에 실제로 발표되어 있는지 확인하는 습관을 만든다.
-2. Week 3에서 실제 lag feature 생성 후 첫 행 결측과 날짜별 정렬 결과를 직접 확인한다.
+2. lag feature 생성 후 생기는 첫 행 결측을 모델링 전에 제외할지, 다른 방식으로 처리할지 판단하는 기준을 세운다.
 3. notebook에서 절대경로 대신 현재 작업 폴더를 확인하고 저장소 상대경로를 사용하는 습관을 만든다.
 
 ## Week Advancement Evidence
 
 - 현재 판단: 사용자 동의에 따라 Week 3 Feature Engineering으로 진입했다.
 - 확보된 증거: Exercise 1에서 목표 변수, 예측 대상 시점, 1개월 Forecast Horizon과 Prediction Time의 핵심을 설명했다. Exercise 2에서 feature month와 target month 정렬, `target_next_month` 생성, 중복 행 정리 필요성을 확인했다. Exercise 3에서 시간순 train/test split 기준과 무작위 분할 위험을 확인했다. Exercise 4에서 기준 모델의 예측값을 feature month의 `industrial_production_index`에서 만들고, target을 복사하지 않아야 함을 확인했다. Exercise 5에서 MAE, MSE, RMSE를 계산하고 기준 모델의 test 성능을 해석했다. Week 2 Review Check에서 전체 흐름을 재현하고, test 11행의 기준 모델 평가 지표를 계산 및 설명했다.
-- 추가로 필요한 증거: Week 3 Exercise 2에서 실제 데이터로 lag feature를 만들고, 첫 행 결측과 예측 시점 기준의 사용 가능성을 확인하는 코드와 설명.
+- 추가 확보 증거: Week 3 Exercise 2에서 실제 데이터로 lag feature를 만들고, 첫 행 결측과 예측 시점 기준의 사용 가능성을 확인했다.
+- 추가로 필요한 증거: lag feature의 결측 처리와 모델 입력 후보로서의 의미를 설명하고, 이후 rolling/differencing feature로 확장할 준비가 필요하다.
 - 승급 규칙: 충분한 증거가 모이면 다음 Week로의 이동을 추천하며, 자동으로 변경하지 않는다.
 
 ## Recurring Mistakes
