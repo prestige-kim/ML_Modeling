@@ -8,11 +8,11 @@
 |---|---|
 | Start Date | 2026-07-09 |
 | Last Updated | 2026-07-17 |
-| Current Phase | Phase 2 - Machine Learning Foundations |
-| Current Week | 2 |
-| Week Status | Completed |
-| Current Focus | Week 2 완료 증거 확인 및 Week 3 진입 여부 결정 |
-| Next Session Goal | Week 3 Feature Engineering으로 넘어갈지 확인한 뒤, lag feature를 예측 시점 기준으로 안전하게 만드는 개념을 시작한다. |
+| Current Phase | Phase 3 - Feature Engineering |
+| Current Week | 3 |
+| Week Status | In Progress |
+| Current Focus | Lag feature를 예측 시점 기준으로 안전하게 만드는 개념 시작 |
+| Next Session Goal | `industrial_production_index_lag1`을 만들기 전에 feature month, target month, lag source month를 구분한다. |
 
 ## Completed Evidence
 
@@ -110,9 +110,9 @@
 
 ## Week Advancement Evidence
 
-- 현재 판단: Week 2 Review Check 완료. Week 3 진입을 추천할 수 있다.
+- 현재 판단: 사용자 동의에 따라 Week 3 Feature Engineering으로 진입했다.
 - 확보된 증거: Exercise 1에서 목표 변수, 예측 대상 시점, 1개월 Forecast Horizon과 Prediction Time의 핵심을 설명했다. Exercise 2에서 feature month와 target month 정렬, `target_next_month` 생성, 중복 행 정리 필요성을 확인했다. Exercise 3에서 시간순 train/test split 기준과 무작위 분할 위험을 확인했다. Exercise 4에서 기준 모델의 예측값을 feature month의 `industrial_production_index`에서 만들고, target을 복사하지 않아야 함을 확인했다. Exercise 5에서 MAE, MSE, RMSE를 계산하고 기준 모델의 test 성능을 해석했다. Week 2 Review Check에서 전체 흐름을 재현하고, test 11행의 기준 모델 평가 지표를 계산 및 설명했다.
-- 추가로 필요한 증거: Week 3 진입 전 사용자 동의.
+- 추가로 필요한 증거: Week 3 Exercise 1에서 lag feature의 방향과 Data Leakage 위험을 설명하는 답안.
 - 승급 규칙: 충분한 증거가 모이면 다음 Week로의 이동을 추천하며, 자동으로 변경하지 않는다.
 
 ## Recurring Mistakes
