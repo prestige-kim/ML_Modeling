@@ -102,3 +102,50 @@
 - `shift(1)`은 과거 값을 현재 행으로 가져와 lag feature를 만든다.
 - `shift(-1)`은 미래 값을 현재 행으로 가져오므로 target 생성에는 사용할 수 있지만, feature 생성에 쓰면 Data Leakage 위험이 크다.
 - 한 행에는 "예측 시점에 아는 정보"와 "나중에 맞힐 정답"이 함께 있어야 하며, 둘의 시점을 코드 출력으로 직접 확인해야 한다.
+
+## Exercise 3 - Lag/target missing row handling
+
+완료 상태: 통과
+
+사용 데이터셋: `data/week1_macro_practice.csv`
+
+실습 목표:
+
+- `industrial_production_index_lag1`과 `target_next_month`를 만든 뒤 생기는 결측 행의 원인을 구분한다.
+- 첫 행의 lag 결측과 마지막 행의 target 결측이 모델링에서 서로 다른 의미를 갖는다는 점을 설명한다.
+- 모델 입력 feature와 정답 target이 모두 있는 행만 `model_df`로 남긴다.
+- `2024-02-29` 행에서 feature date, lag source date, target date를 정확한 날짜로 설명한다.
+
+배운 개념:
+
+- 첫 번째 날짜 행의 `industrial_production_index_lag1`은 이전 달 행이 없어서 결측이 된다.
+- 마지막 날짜 행의 `target_next_month`는 다음 달 정답이 데이터셋에 없어서 결측이 된다.
+- `target_next_month`가 결측인 행은 supervised learning에서 학습 정답이 없으므로 학습용 행으로 사용할 수 없다.
+- 결측 자체가 Data Leakage인 것은 아니며, 예측 시점에 알 수 없는 미래 값이나 전체 데이터 통계로 결측을 채우려 할 때 Data Leakage 위험이 생긴다.
+- `2024-02-29` 행의 feature date는 `2024-02-29`, lag source date는 `2024-01-31`, target date는 `2024-03-31`이다.
+
+사용한 함수/메서드:
+
+- `isna()`: `industrial_production_index_lag1`과 `target_next_month`의 결측 여부를 확인하는 데 사용했다.
+- `sum()`: `isna()` 결과에서 `True` 개수를 세어 결측 행 수를 확인하는 데 사용했다.
+- `dropna(subset=[...])`
+  - 필요한 이유: 모델링에 필요한 feature와 target 컬럼에 결측이 있는 행을 제외하기 위해 사용한다.
+  - 주요 인수: `subset`; 결측 여부를 검사할 컬럼명 목록을 받는다.
+  - 반환값: 지정한 컬럼의 결측 행이 제거된 새 `DataFrame`.
+  - 원본 변경 여부: 기본적으로 원본 `DataFrame`을 직접 바꾸지 않는다.
+  - 재할당 필요 여부: 결과를 계속 쓰려면 `model_df = ...`처럼 새 변수에 저장해야 한다.
+  - 주의점: `subset=['target_next_month' and 'industrial_production_index_lag1']`처럼 쓰면 Python의 `and` 연산 때문에 두 컬럼이 아니라 마지막 문자열 하나만 검사하게 된다. 컬럼명은 `subset=['target_next_month', 'industrial_production_index_lag1']`처럼 각각 별도 원소로 넣어야 한다.
+
+수정된 실수:
+
+- 처음에는 `2024-02-29` 행의 feature month, lag source date, target date를 월 단위로만 쓰거나 서로 바꿔 적었지만, 최종 답안에서 정확한 날짜 기준으로 수정했다.
+- 처음에는 `isna()`의 행별 `True/False` 출력만 확인했지만, 이후 `isna().sum()`으로 결측 행 수를 숫자로 확인했다.
+- 처음에는 `dropna(subset=...)`에서 두 컬럼을 `and`로 연결해 한 컬럼만 검사했지만, 이후 두 컬럼명을 리스트의 별도 원소로 넣는 방식으로 수정했다.
+- `target_next_month` 결측 자체를 Data Leakage라고 표현하는 경향이 남아 있었고, 정확히는 결측을 미래 정보로 채울 때 누수 위험이 생긴다는 점을 교정했다.
+
+핵심 정리:
+
+- lag feature의 첫 행 결측은 과거 입력값이 없기 때문에 생긴다.
+- target의 마지막 행 결측은 맞혀야 할 다음 달 정답이 없기 때문에 생긴다.
+- 모델링 후보 데이터는 feature와 target이 모두 있는 행으로 구성해야 한다.
+- 결측 행을 제거하는 것은 미래 값을 임의로 채우지 않기 때문에 현재 단계에서 안전한 처리다.
