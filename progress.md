@@ -11,8 +11,8 @@
 | Current Phase | Phase 3 - Feature Engineering |
 | Current Week | 3 |
 | Week Status | In Progress |
-| Current Focus | lag feature와 target 생성 후 생기는 결측 행을 모델링 전에 안전하게 처리하기 |
-| Next Session Goal | lag feature가 모델 입력 후보로 어떤 의미를 갖는지 정리하고, rolling feature로 확장할 준비를 한다. |
+| Current Focus | `industrial_production_index_lag1`으로 첫 `LinearRegression` 모델을 학습하고 Week 2 baseline과 같은 test 행에서 비교하기 |
+| Next Session Goal | Week 3 Exercise 4에서 `X`, `y`, `fit`, `predict`를 이해하고 시간순 분할로 lag1 모델의 MAE/RMSE를 baseline과 비교한다. |
 
 ## Completed Evidence
 
@@ -119,7 +119,7 @@
 ## Follow-up Queue
 
 1. 각 설명 변수 후보가 Prediction Time에 실제로 발표되어 있는지 확인하는 습관을 만든다.
-2. lag feature가 모델 입력 후보로 어떤 의미를 갖는지 기준 모델과 비교해 설명한다.
+2. lag feature의 예측 가치를 첫 `LinearRegression` 모델과 기준 모델의 동일 test 구간 성능으로 비교한다.
 3. notebook에서 절대경로 대신 현재 작업 폴더를 확인하고 저장소 상대경로를 사용하는 습관을 만든다.
 
 ## Week Advancement Evidence
@@ -127,7 +127,7 @@
 - 현재 판단: 사용자 동의에 따라 Week 3 Feature Engineering으로 진입했다.
 - 확보된 증거: Exercise 1에서 목표 변수, 예측 대상 시점, 1개월 Forecast Horizon과 Prediction Time의 핵심을 설명했다. Exercise 2에서 feature month와 target month 정렬, `target_next_month` 생성, 중복 행 정리 필요성을 확인했다. Exercise 3에서 시간순 train/test split 기준과 무작위 분할 위험을 확인했다. Exercise 4에서 기준 모델의 예측값을 feature month의 `industrial_production_index`에서 만들고, target을 복사하지 않아야 함을 확인했다. Exercise 5에서 MAE, MSE, RMSE를 계산하고 기준 모델의 test 성능을 해석했다. Week 2 Review Check에서 전체 흐름을 재현하고, test 11행의 기준 모델 평가 지표를 계산 및 설명했다.
 - 추가 확보 증거: Week 3 Exercise 2에서 실제 데이터로 lag feature를 만들고, 첫 행 결측과 예측 시점 기준의 사용 가능성을 확인했다. Week 3 Exercise 3에서 lag feature와 target 생성 후 생기는 결측 행의 의미를 구분하고, `dropna(subset=[...])`로 모델링 후보 행을 만들었다.
-- 추가로 필요한 증거: lag feature의 모델 입력 후보로서의 의미를 기준 모델과 연결해 설명하고, 이후 rolling/differencing feature로 확장할 준비가 필요하다.
+- 추가로 필요한 증거: Week 3 Exercise 4에서 `industrial_production_index_lag1` 하나를 입력으로 첫 `LinearRegression` 모델을 학습하고, 동일한 시간순 test 행에서 Week 2 baseline과 MAE/RMSE를 비교해야 한다. `X`, `y`, `fit`, `predict`의 역할과 target 또는 미래 이동 컬럼을 `X`에 넣으면 안 되는 이유도 설명해야 한다.
 - 승급 규칙: 충분한 증거가 모이면 다음 Week로의 이동을 추천하며, 자동으로 변경하지 않는다.
 
 ## Recurring Mistakes
