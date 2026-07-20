@@ -1,7 +1,14 @@
-  1. 2024-02-29의 Prediction Time, lag source date, target date를 정확한 날짜로 설명합니다.
-  2. X_train과 y_train에 들어간 컬럼명을 각각 적습니다.
-  3. fit()과 predict()의 역할 차이를 1~3문장으로 설명합니다.
-  4. baseline과 lag1 모델의 MAE/RMSE를 notebook 출력 숫자로 기록합니다.
-  5. 어느 예측의 오차가 더 낮았는지 설명합니다.
-  6. 결과만으로 “LinearRegression이 baseline보다 우수하다”라고 단정할 수 있는지 설명합니다.
-  7. target_next_month를 X에 넣으면 왜 Data Leakage인지 설명합니다.
+  1. 이번 Exercise에서 X와 y가 각각 무엇인지 설명하세요.
+  > X는 lag 값, 즉 feature month 의 이전 달 산업생산지수 / y는 target_next_month 의 값, 즉 target month 의 산업생산지수
+
+  2. fit과 predict가 각각 무엇을 하는지 설명하세요.
+  > fit 은 선택한 모델에 학습시키고 predict 은 예측값, 즉 정답을 도출한다. 
+
+  3. 왜 X에 target_next_month를 넣으면 안 되는지 설명하세요.
+  > X에 target_next_month 를 넣으면 예측 시점에 알 수 없는 미래의 값을 넣는 것이기 때문에 올바른 학습을 할 수 없게 된다. 
+
+  4. baseline과 LinearRegression 중 test MAE/RMSE 기준으로 어느 쪽이 나았는지 쓰세요.
+  > baseline, LinearRegression 은 
+[0.445454545454546, 0.46023709304898797]
+[1.353645569871122, 1.411907463402833]
+의 값을 각각 가진다. 이를 통해 test 에서 선형회귀 모델은 baseline 보다 좋지 못한 성능을 가짐을 볼 수 있다. (MAE, RMSE 가 더 크다는건 오차, 즉 정답과의 차이가 크다는 뜻이기 때문)

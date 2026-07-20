@@ -7,12 +7,12 @@
 | Field | Value |
 |---|---|
 | Start Date | 2026-07-09 |
-| Last Updated | 2026-07-19 |
+| Last Updated | 2026-07-20 |
 | Current Phase | Phase 3 - Feature Engineering |
 | Current Week | 3 |
 | Week Status | In Progress |
-| Current Focus | `industrial_production_index_lag1`으로 첫 `LinearRegression` 모델을 학습하고 Week 2 baseline과 같은 test 행에서 비교하기 |
-| Next Session Goal | Week 3 Exercise 4에서 `X`, `y`, `fit`, `predict`를 이해하고 시간순 분할로 lag1 모델의 MAE/RMSE를 baseline과 비교한다. |
+| Current Focus | Week 3 Review Check에서 lag feature 기반 첫 모델링 workflow를 처음부터 끝까지 재현하고 설명하기 |
+| Next Session Goal | Week 3 Review Check에서 target 정렬, lag feature, 시간순 split, baseline, `LinearRegression`, MAE/RMSE 비교를 compact end-to-end 흐름으로 재현한다. |
 
 ## Completed Evidence
 
@@ -84,6 +84,11 @@
   - `industrial_production_index_lag1`의 첫 행 결측과 `target_next_month`의 마지막 행 결측 원인을 구분했다.
   - `dropna(subset=[...])`로 feature와 target이 모두 있는 모델링 후보 행만 남겼고, `2024-02-29` 행의 feature date, lag source date, target date를 정확히 설명했다.
   - 답안: `answers/code/week3/week3_3.ipynb`, `answers/text/week3/week3_3.txt`
+- Exercise 4 - First LinearRegression with lag1 feature
+  - `industrial_production_index_lag1` 하나를 `X`로 사용해 첫 `LinearRegression` 모델을 학습했다.
+  - 같은 test 11행에서 baseline과 LinearRegression의 MAE/RMSE를 비교했고, lag1 선형회귀가 baseline보다 성능이 낮다는 점을 확인했다.
+  - `X`, `y`, `fit`, `predict`의 역할과 `target_next_month`를 `X`에 넣으면 안 되는 이유를 설명했다.
+  - 답안: `answers/code/week3/week3_4.ipynb`, `answers/text/week3/week3_4.txt`
 
 ## Diagnostic Scores
 
@@ -95,8 +100,8 @@
 | EDA | 6/10 |
 | Visualization | 3/10 |
 | Missing Value Handling | 4/10 |
-| Feature Engineering | 4/10 |
-| Model Evaluation | 3/10 |
+| Feature Engineering | 5/10 |
+| Model Evaluation | 4/10 |
 | Leakage Awareness | 8/10 |
 | Time-Series Intuition | 8/10 |
 
@@ -109,6 +114,7 @@
 - 약한 시각적 관계만으로 변수의 예측 가치를 단정하지 않기
 - 과제 질문의 표현이 `month`인지 정확한 `date`인지에 따라 답변 기준을 일관되게 맞추기
 - notebook에서 상대경로를 사용할 때 현재 작업 폴더(`os.getcwd()`)를 먼저 확인하기
+- MAE/RMSE 계산에서 비교 대상이 항상 실제 정답(`y_true`)과 예측값(`y_pred`)인지 확인하기
 
 ## Strong Areas
 
@@ -119,15 +125,15 @@
 ## Follow-up Queue
 
 1. 각 설명 변수 후보가 Prediction Time에 실제로 발표되어 있는지 확인하는 습관을 만든다.
-2. lag feature의 예측 가치를 첫 `LinearRegression` 모델과 기준 모델의 동일 test 구간 성능으로 비교한다.
+2. Week 3 Review Check에서 lag feature 기반 전체 모델링 흐름을 compact하게 재현한다.
 3. notebook에서 절대경로 대신 현재 작업 폴더를 확인하고 저장소 상대경로를 사용하는 습관을 만든다.
 
 ## Week Advancement Evidence
 
 - 현재 판단: 사용자 동의에 따라 Week 3 Feature Engineering으로 진입했다.
 - 확보된 증거: Exercise 1에서 목표 변수, 예측 대상 시점, 1개월 Forecast Horizon과 Prediction Time의 핵심을 설명했다. Exercise 2에서 feature month와 target month 정렬, `target_next_month` 생성, 중복 행 정리 필요성을 확인했다. Exercise 3에서 시간순 train/test split 기준과 무작위 분할 위험을 확인했다. Exercise 4에서 기준 모델의 예측값을 feature month의 `industrial_production_index`에서 만들고, target을 복사하지 않아야 함을 확인했다. Exercise 5에서 MAE, MSE, RMSE를 계산하고 기준 모델의 test 성능을 해석했다. Week 2 Review Check에서 전체 흐름을 재현하고, test 11행의 기준 모델 평가 지표를 계산 및 설명했다.
-- 추가 확보 증거: Week 3 Exercise 2에서 실제 데이터로 lag feature를 만들고, 첫 행 결측과 예측 시점 기준의 사용 가능성을 확인했다. Week 3 Exercise 3에서 lag feature와 target 생성 후 생기는 결측 행의 의미를 구분하고, `dropna(subset=[...])`로 모델링 후보 행을 만들었다.
-- 추가로 필요한 증거: Week 3 Exercise 4에서 `industrial_production_index_lag1` 하나를 입력으로 첫 `LinearRegression` 모델을 학습하고, 동일한 시간순 test 행에서 Week 2 baseline과 MAE/RMSE를 비교해야 한다. `X`, `y`, `fit`, `predict`의 역할과 target 또는 미래 이동 컬럼을 `X`에 넣으면 안 되는 이유도 설명해야 한다.
+- 추가 확보 증거: Week 3 Exercise 2에서 실제 데이터로 lag feature를 만들고, 첫 행 결측과 예측 시점 기준의 사용 가능성을 확인했다. Week 3 Exercise 3에서 lag feature와 target 생성 후 생기는 결측 행의 의미를 구분하고, `dropna(subset=[...])`로 모델링 후보 행을 만들었다. Week 3 Exercise 4에서 `industrial_production_index_lag1` 하나를 입력으로 첫 `LinearRegression` 모델을 학습하고, 동일한 시간순 test 행에서 baseline과 MAE/RMSE를 비교했다. 초기에는 두 예측값끼리 비교하고 RMSE 대신 MSE를 해석했지만, 수정 후 실제 target과 각 예측값을 비교하는 방식으로 교정했다.
+- 추가로 필요한 증거: Week 3 Review Check에서 target 정렬, lag feature 생성, 결측 행 제거, 시간순 split, baseline, `LinearRegression`, MAE/RMSE 비교를 compact end-to-end workflow로 재현하고 결과를 과장 없이 설명해야 한다.
 - 승급 규칙: 충분한 증거가 모이면 다음 Week로의 이동을 추천하며, 자동으로 변경하지 않는다.
 
 ## Recurring Mistakes

@@ -149,3 +149,63 @@
 - target의 마지막 행 결측은 맞혀야 할 다음 달 정답이 없기 때문에 생긴다.
 - 모델링 후보 데이터는 feature와 target이 모두 있는 행으로 구성해야 한다.
 - 결측 행을 제거하는 것은 미래 값을 임의로 채우지 않기 때문에 현재 단계에서 안전한 처리다.
+
+## Exercise 4 - First LinearRegression with lag1 feature
+
+완료 상태: 통과
+
+사용 데이터셋: `data/week1_macro_practice.csv`
+
+실습 목표:
+
+- `industrial_production_index_lag1` 하나를 입력 feature `X`로 사용해 첫 `LinearRegression` 모델을 학습한다.
+- `target_next_month`를 정답 `y`로 두고, 시간순 train/test split을 유지한다.
+- Week 2 baseline과 `LinearRegression`을 같은 test 11행에서 MAE/RMSE로 비교한다.
+- `X`, `y`, `fit`, `predict`의 역할과 target 또는 미래 이동 컬럼을 `X`에 넣으면 안 되는 이유를 설명한다.
+
+배운 개념:
+
+- `X`는 모델이 예측 시점에 사용할 수 있는 입력 feature 표다. 이번 실습에서는 `industrial_production_index_lag1`만 사용했다.
+- `y`는 모델이 맞혀야 하는 정답이다. 이번 실습에서는 다음 달 산업생산지수인 `target_next_month`를 사용했다.
+- `fit`은 train 구간의 `X_train`과 `y_train`을 사용해 선형회귀의 계수와 절편을 학습하는 단계다.
+- `predict`는 학습된 모델이 `X_test`만 보고 test 구간의 예측값을 만드는 단계다.
+- baseline은 feature date의 현재 `industrial_production_index`를 다음 달 예측값으로 사용하는 persistence model이다.
+- 같은 test 11행에서 baseline은 MAE 약 0.4455, RMSE 약 0.4602였고, `LinearRegression`은 MAE 약 1.3536, RMSE 약 1.4119였다.
+- 이번 test 구간에서는 `industrial_production_index_lag1` 하나만 사용한 선형회귀가 baseline보다 좋은 성능을 보이지 못했다.
+
+사용한 함수/메서드:
+
+- `LinearRegression`
+  - 필요한 이유: lag feature와 다음 달 target 사이의 선형 관계를 학습하기 위해 사용한다.
+  - 주요 인수: 이번 실습에서는 기본값으로 생성했다.
+  - 반환값: `LinearRegression()` 객체.
+  - 원본 변경 여부: `DataFrame`을 직접 변경하지 않는다.
+  - 재할당 필요 여부: 학습과 예측에 계속 쓰려면 `model = LinearRegression()`처럼 변수에 저장해야 한다.
+- `fit(X_train, y_train)`
+  - 필요한 이유: train 데이터에서 입력 feature와 target의 관계를 학습하기 위해 사용한다.
+  - 주요 인수: `X_train`은 2차원 feature table, `y_train`은 target 값이다.
+  - 반환값: 학습된 모델 객체 자신.
+  - 원본 변경 여부: 입력 `DataFrame`을 직접 변경하지 않지만, 모델 객체 내부에는 학습된 계수와 절편이 저장된다.
+  - 재할당 필요 여부: 보통 `model.fit(...)`처럼 호출해도 모델 객체가 학습 상태를 갖는다.
+- `predict(X_test)`
+  - 필요한 이유: 학습된 모델로 test 구간의 예측값을 만들기 위해 사용한다.
+  - 주요 인수: `X_test`; train 때 사용한 feature와 같은 컬럼 구조여야 한다.
+  - 반환값: 예측값 배열.
+  - 원본 변경 여부: 입력 `DataFrame`을 직접 변경하지 않는다.
+  - 재할당 필요 여부: 예측값을 평가하거나 표에 붙이려면 `pred = model.predict(X_test)`처럼 저장해야 한다.
+- `mean_absolute_error(y_true, y_pred)`: 실제 정답과 예측값의 절대오차 평균을 계산하는 데 사용했다.
+- `mean_squared_error(y_true, y_pred)`: MSE를 계산한 뒤 `** 0.5`를 적용해 RMSE를 만들었다.
+- 이전 실습에서 배운 `pd.read_csv()`, `pd.to_datetime()`, `sort_values()`, `drop_duplicates()`, `shift()`, `dropna(subset=[...])`는 모델링 workflow 준비 단계로 재사용했다.
+
+수정된 실수:
+
+- 처음에는 baseline 예측값과 `LinearRegression` 예측값끼리 비교해 오차를 계산했지만, 모델 평가는 실제 정답인 `target_next_month`와 각 예측값을 비교해야 한다는 점을 수정했다.
+- 처음에는 RMSE 대신 MSE 값을 RMSE로 해석했지만, MSE에 제곱근을 씌운 값이 RMSE라는 점을 교정했다.
+- `y_train`을 DataFrame 형태로 만들었다가, 이후 target 벡터의 의미가 더 명확한 Series 형태로 수정했다.
+- 글 답안에서 성능 해석을 어려워했지만, 수정 후 MAE/RMSE가 더 큰 모델이 실제 정답과 더 멀리 벗어났다는 방식으로 비교했다.
+
+핵심 정리:
+
+- 안전한 lag feature라고 해서 반드시 baseline보다 예측력이 좋은 것은 아니다.
+- feature의 가치는 feature를 만든 사실이 아니라, 같은 test 행에서 실제 정답과 비교한 out-of-sample 성능으로 판단해야 한다.
+- MAE/RMSE는 두 예측값끼리 비교하는 지표가 아니라, 실제 정답과 예측값의 차이를 측정하는 지표다.
