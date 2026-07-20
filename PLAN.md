@@ -121,6 +121,25 @@ When introducing a new function or method, explain:
 4. Whether it changes the original object or returns a new result.
 5. Whether the result must be saved back into a variable.
 
+When a learner encounters a completely new pandas/Python/sklearn API, model, or
+modeling workflow, provide a small runnable code example before assigning the
+Exercise. The example must use toy data or different columns so that it demonstrates
+the full execution pattern without becoming the submitted Exercise's answer.
+
+The example should show, when applicable:
+
+1. Imports.
+2. Input data shape and feature/target separation.
+3. Object creation.
+4. `fit` or the equivalent learning step.
+5. `predict` or the equivalent output step.
+6. The type or shape of important return values.
+7. One common incorrect form and why it fails or leaks information.
+
+This runnable example is concept instruction, not a Full Solution. The learner must
+still adapt the pattern to the Exercise's actual dataset, columns, dates, split, and
+evaluation requirements.
+
 ---
 
 # Coding Rules

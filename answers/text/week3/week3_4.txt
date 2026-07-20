@@ -1,0 +1,7 @@
+  1. 2024-02-29의 Prediction Time, lag source date, target date를 정확한 날짜로 설명합니다.
+  2. X_train과 y_train에 들어간 컬럼명을 각각 적습니다.
+  3. fit()과 predict()의 역할 차이를 1~3문장으로 설명합니다.
+  4. baseline과 lag1 모델의 MAE/RMSE를 notebook 출력 숫자로 기록합니다.
+  5. 어느 예측의 오차가 더 낮았는지 설명합니다.
+  6. 결과만으로 “LinearRegression이 baseline보다 우수하다”라고 단정할 수 있는지 설명합니다.
+  7. target_next_month를 X에 넣으면 왜 Data Leakage인지 설명합니다.
