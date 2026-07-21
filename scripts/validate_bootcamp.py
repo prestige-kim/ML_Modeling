@@ -18,13 +18,13 @@ REQUIRED_FILES = (
     "PLAN.md",
     "README.md",
     "progress.md",
-    "notes/week1.md",
-    "notes/week2.md",
     "requirements.txt",
     ".rules/core.md",
     ".rules/session.md",
     ".rules/review.md",
     ".rules/tracking.md",
+    "promptArchive/DailyStartPrompt.txt",
+    "promptArchive/SessionReview.txt",
     "scripts/validate_bootcamp.py",
 )
 
@@ -87,6 +87,18 @@ def validate_state(progress: str, errors: list[str]) -> None:
         errors.append(f"지원하지 않는 Week Status입니다: {week_status}")
 
 
+def validate_week_notes(progress: str, errors: list[str]) -> None:
+    """Require a cumulative notes file for every week started so far."""
+    current_week = table_value(progress, "Current Week")
+    if not current_week or not current_week.isdigit():
+        return
+
+    for week in range(1, int(current_week) + 1):
+        relative_path = f"notes/week{week}.md"
+        if not (ROOT / relative_path).is_file():
+            errors.append(f"시작된 Week의 노트 파일이 없습니다: {relative_path}")
+
+
 def validate_diagnostics(progress: str, errors: list[str]) -> None:
     for area in EXPECTED_DIAGNOSTICS:
         value = table_value(progress, area)
@@ -128,11 +140,9 @@ def main() -> int:
     if PROGRESS_PATH.is_file():
         progress = PROGRESS_PATH.read_text(encoding="utf-8")
         validate_state(progress, errors)
+        validate_week_notes(progress, errors)
         validate_diagnostics(progress, errors)
         validate_answer_references(progress, errors)
-        current_week = table_value(progress, "Current Week")
-        if current_week and not (ROOT / f"notes/week{current_week}.md").is_file():
-            errors.append(f"현재 Week에 해당하는 노트 파일이 없습니다: notes/week{current_week}.md")
 
     validate_no_stale_review_notes_references(errors)
 

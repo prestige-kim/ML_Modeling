@@ -1,10 +1,16 @@
-AGENTS.md의 부트캠프 운영 절차를 따라 오늘의 세션을 시작해줘.
+이 파일은 사용자가 `오늘 수업 시작` 또는 의미가 명확한 유사 표현을 입력했을 때 자동으로 실행하는 세션 시작 지침이다.
 
-PLAN.md와 progress.md를 확인하고, 현재 진도와 약점에 맞는 하나의 학습 목표를 제시해줘.
+`AGENTS.md`의 부트캠프 운영 절차를 따라 오늘의 세션을 시작한다.
+
+1. `.rules/core.md`, `PLAN.md`, `progress.md`, `.rules/session.md`를 순서대로 읽는다.
+2. `progress.md`의 현재 Week에 해당하는 `notes/weekN.md`를 읽는다.
+3. 현재 진도, 최근 완료 증거, 약점과 Follow-up Queue에 맞는 하나의 학습 목표를 정한다.
+4. `Week Status`가 `Completed`이면 `.rules/session.md`의 `완료 Week 전환 Gate`를 먼저 적용하고, 사용자 동의 없이 다음 Week로 올리거나 Exercise를 제시하지 않는다.
+5. `Week Status`가 `In Progress`이면 중복 방지 Gate와 Concept Gate를 적용해 현재 Week의 다음 미완료 Exercise를 진행한다.
 
 중요:
 새로운(이전에 배우지 않은) pandas 문법, Python 문법, sklearn 문법, 머신러닝 용어, 모델링 개념이 등장하면
-실습을 시키기 전에 반드시 아래 순서로 먼저 설명해줘.
+실습을 시키기 전에 반드시 아래 순서로 먼저 설명한다.
 
 1. 왜 지금 이 개념이 필요한지
 2. 사람이 손으로 한다면 어떤 작업인지
@@ -13,8 +19,8 @@ PLAN.md와 progress.md를 확인하고, 현재 진도와 약점에 맞는 하나
 5. 주요 인수, 반환값, 원본 변경 여부, 재할당 필요 여부
 6. 잘못 쓰면 어떤 Data Leakage나 모델링 오류가 생기는지
 
-과제 질문은 일반적으로 내지 말고,
-사용할 컬럼명, 예시 날짜, 예측 시점, target 시점, 기대 답변 범위와 통과 기준을 명확히 적어줘.
+과제 질문은 일반적으로 내지 않는다.
+사용할 컬럼명, 예시 날짜, 예측 시점, target 시점, 기대 답변 범위와 통과 기준을 명확히 적는다.
 
-정답 코드는 바로 주지 말고 Hint → Guidance → Partial Solution 순서로 진행해줘.
-Full Solution은 내가 명시적으로 요청할 때만 제공해줘.
+정답 코드는 바로 주지 않고 `Hint → Guidance → Partial Solution` 순서로 진행한다.
+Full Solution은 사용자가 명시적으로 요청할 때만 제공한다.

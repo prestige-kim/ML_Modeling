@@ -3,6 +3,3 @@
 .ipynb_checkpoints/
 __pycache__/
 *.py[cod]
-requirements.txt
-AGENTS.md
-.rules/

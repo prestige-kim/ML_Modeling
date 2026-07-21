@@ -11,7 +11,7 @@
 
 ## Phase 3 - Feature Engineering
 
-현재 상태: 시작됨
+현재 상태: 완료됨 (`Week 3 Review Check` 통과)
 
 시작 목표:
 
@@ -209,3 +209,37 @@
 - 안전한 lag feature라고 해서 반드시 baseline보다 예측력이 좋은 것은 아니다.
 - feature의 가치는 feature를 만든 사실이 아니라, 같은 test 행에서 실제 정답과 비교한 out-of-sample 성능으로 판단해야 한다.
 - MAE/RMSE는 두 예측값끼리 비교하는 지표가 아니라, 실제 정답과 예측값의 차이를 측정하는 지표다.
+
+## Week 3 Review Check - End-to-end lag feature modeling review
+
+완료 상태: 통과
+
+사용 데이터셋: `data/week1_macro_practice.csv`
+
+실습 목표:
+
+- target 정렬부터 모델 평가까지의 lag1 기반 workflow를 하나의 notebook에서 재현한다.
+- persistence baseline과 `LinearRegression`을 동일한 test 11행에서 MAE/RMSE로 비교한다.
+- 실제 정답, baseline 예측값, 선형회귀 예측값의 역할을 구분해 설명한다.
+
+배운 내용:
+
+- `2024-02-29`의 prediction time에는 한 달 전인 `2024-01-31`의 lag1 값은 사용할 수 있지만, `target_next_month`인 `2024-03-31` 값은 알 수 없다.
+- baseline은 test feature date의 현재 `industrial_production_index`를 예측값으로 쓰며 별도의 학습이나 `predict()` 호출이 필요 없다.
+- 선형회귀와 baseline 모두 같은 test의 `target_next_month`를 실제 정답으로 사용해야 공정하게 비교할 수 있다.
+- test 11행에서 baseline의 MAE 약 0.4455, RMSE 약 0.4602가 lag1 선형회귀의 MAE 약 1.3536, RMSE 약 1.4119보다 작았다.
+
+사용한 함수/메서드:
+
+- 이전에 배운 `shift()`, `dropna()`, `LinearRegression.fit()`, `predict()`와 MAE/RMSE 계산을 하나의 workflow에서 재사용했다.
+- `test['model_result'] = model_yPred`로 예측값 배열을 test DataFrame의 새 컬럼에 저장해 실제값·baseline·모델 예측값을 같은 행에서 확인했다. 이 대입은 `test`를 직접 변경하며, 결과를 계속 사용할 수 있도록 컬럼에 저장한다.
+
+수정된 실수:
+
+- 처음에는 MAE를 부호 있는 오차의 평균으로 계산했으나, 절대오차의 평균으로 수정했다.
+- 처음에는 모델 예측값과 baseline 예측값을 직접 비교하는 것과, 같은 실제 정답에 대한 두 모델의 MAE/RMSE를 비교하는 것을 혼동했으나 수정했다.
+
+핵심 정리:
+
+- 평가에서는 실제 정답(`y_true`)은 공통으로 두고, 각 모델의 예측값(`y_pred`)을 각각 비교한다.
+- baseline보다 오차가 큰 lag1 선형회귀 결과는 모델이 틀렸다는 뜻이 아니라, 이 feature 하나가 이 test 기간에서 baseline보다 유용하지 않았다는 out-of-sample 증거다.

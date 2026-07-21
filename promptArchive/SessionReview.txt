@@ -1,17 +1,34 @@
-AGENTS.md와 `.rules/review.md`의 절차에 따라 아래 제출물을 리뷰해줘.
+이 파일은 사용자가 `과제 채점 시작` 또는 의미가 명확한 유사 표현을 입력했을 때 자동으로 실행하는 제출물 리뷰 지침이다.
 
-검토할 파일:
+## 준비 문서
 
-1. answers/code/week3/week3_4.ipynb
-2. answers/text/week3/week3_4.txt
+1. `AGENTS.md`, `.rules/core.md`, `PLAN.md`, `progress.md`, `.rules/review.md`를 읽는다.
+2. 현재 Week의 `notes/weekN.md`와 직전 세션에서 제시한 Exercise 조건을 확인한다.
 
-Correctness, Modeling Logic, Data Leakage Risk, Evaluation Quality, Possible Improvements를 확인해줘.
+## 제출물 자동 탐색
+
+사용자가 파일 경로를 직접 지정했다면 그 파일들을 최우선으로 검토한다. 경로를 지정하지 않았다면 다음 순서로 찾는다.
+
+1. `progress.md`의 `Current Week`를 확인한다.
+2. `answers/code/weekN/`과 `answers/text/weekN/`에서 Git 기준 수정 또는 새로 생성된 파일을 찾는다.
+3. 코드 파일(`.ipynb`, `.py`)과 글 파일(`.txt`, `.md`)은 같은 basename을 가진 제출물끼리 짝지어 우선 선택한다.
+4. `Current Focus`, `Next Session Goal`, 직전 세션의 Exercise 이름과 파일명이 일치하는 후보를 우선한다.
+5. `progress.md`의 Completed Evidence에 이미 기록된 제출물은 기본적으로 제외한다. 단, 해당 파일이 이후 다시 수정되었고 사용자가 재채점을 요청한 경우에는 포함한다.
+6. Exercise가 글 답안만 요구했다면 코드 파일이 없다는 이유로 누락으로 판단하지 않는다.
+7. 후보가 하나로 결정되면 선택한 파일 경로와 Exercise를 먼저 알리고 즉시 리뷰한다.
+8. 후보가 없거나 여러 후보 중 어느 것이 제출물인지 확정할 수 없으면 임의로 최신 파일을 채점하지 말고, 후보 경로를 제시하며 사용자에게 짧게 확인한다.
+
+Notebook은 코드 셀뿐 아니라 실행 순서, 저장된 출력, 오류, 하드코딩된 경로를 함께 확인한다. 글 답안은 Notebook 결과 및 Exercise 조건과 대조한다.
+
+Correctness, Modeling Logic, Data Leakage Risk, Evaluation Quality, Possible Improvements를 확인한다.
 
 중요:
 과제 질문이 모호했다면 그 모호함 때문에 나온 일반적인 답변을 핵심 오답으로 몰지 말고,
-필요한 구체성은 보완 질문으로 분리해줘.
+필요한 구체성은 보완 질문으로 분리한다.
 
 새로운 pandas/Python/sklearn 문법이나 모델링 개념을 지적할 때는
-왜 필요한지, 주요 인수, 반환값, 원본 변경 여부, 재할당 필요 여부를 설명해줘.
+왜 필요한지, 주요 인수, 반환값, 원본 변경 여부, 재할당 필요 여부를 설명한다.
 
-정답을 바로 제시하지 말고 `Hint → Guidance → Partial Solution` 순서로 진행해줘. Full Solution은 내가 명시적으로 요청한 경우에만 제공해줘.
+정답을 바로 제시하지 않고 `Hint → Guidance → Partial Solution` 순서로 진행한다. Full Solution은 사용자가 명시적으로 요청한 경우에만 제공한다.
+
+리뷰 요청만으로 사용자 답안 파일을 수정하지 않는다. 통과한 경우에만 `.rules/tracking.md` 절차에 따라 `progress.md`와 해당 주차 노트를 함께 갱신하고 검증 스크립트를 실행한다.

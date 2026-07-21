@@ -29,7 +29,7 @@
 
 ### 세션 시작
 
-`promptArchive/DailyStartPrompt.txt`의 짧은 요청을 사용하면 에이전트가 다음 순서로 진행한다.
+프롬프트에 `오늘 수업 시작`이라고 입력하면 에이전트가 `promptArchive/DailyStartPrompt.txt`를 자동으로 읽고 다음 순서로 진행한다. `오늘 공부 시작해줘`처럼 의도가 명확한 유사 표현도 인식하지만, 단순한 `시작`처럼 모호한 표현은 자동 실행하지 않는다.
 
 ```text
 AGENTS.md
@@ -40,6 +40,8 @@ AGENTS.md
 ```
 
 ### 답안 리뷰
+
+코드와 글 답안을 저장한 뒤 `과제 채점 시작`이라고 입력하면 `promptArchive/SessionReview.txt`를 자동으로 읽는다. 현재 Week, Git 변경 파일, 동일 basename의 코드·글 답안과 현재 Exercise를 대조해 제출물을 찾는다. 후보가 모호하면 임의로 선택하지 않고 사용자에게 확인한다.
 
 답안은 같은 Exercise 이름으로 코드와 글을 나눠 저장한다.
 
@@ -70,7 +72,8 @@ answers/text/week2/week2_1.txt
 ├── requirements.txt
 ├── notes/
 │   ├── week1.md
-│   └── week2.md
+│   ├── week2.md
+│   └── week3.md
 ├── .rules/
 │   ├── core.md
 │   ├── review.md
@@ -79,10 +82,18 @@ answers/text/week2/week2_1.txt
 ├── answers/
 │   ├── code/
 │   │   ├── week1/
-│   │   └── week2/
+│   │   ├── week2/
+│   │   ├── week3/
+│   │   ├── week4/
+│   │   ├── week5/
+│   │   └── week6/
 │   └── text/
 │       ├── week1/
-│       └── week2/
+│       ├── week2/
+│       ├── week3/
+│       ├── week4/
+│       ├── week5/
+│       └── week6/
 ├── data/
 ├── promptArchive/
 │   ├── DailyStartPrompt.txt
