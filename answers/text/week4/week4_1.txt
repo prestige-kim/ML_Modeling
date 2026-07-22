@@ -1,0 +1,16 @@
+1. `2024-03-31` 행의 feature date, `lag1`의 source date, `rolling3_feature` 계산에 사용된 세 날짜, `target`의 날짜를 각각 작성하세요. 또한 rolling3에 미래 정보가 포함되지 않았는지 설명하세요.
+    > 2024-03-31, 2024-02-29, 2024-01-31/2024-02-29/2024-03-31, 2024-04-30. rolling3 에는 center=False 여서 직전 2개와 자기자신만 포함됨
+
+2. 기본 `rolling(window=3)`이 이번 예측 문제에서 사용할 수 있는 이유와 `center=True`를 사용하면 Data Leakage가 발생할 수 있는 이유를 설명하세요. 실제 경제지표에서는 publication lag를 왜 추가로 확인해야 하나요?
+    > 시계열 데이터가 끊기지 않고 존재하고 순서가 보장되어서 사용할 수 있었음. center=True 였다면 직전1개, 자기자신, 다음1개 이렇게 3개를 가지고 여기에 미래 데이터가 포함되기 때문에 데이터 누수가 발생한다. "실제 경제지표에서는 publication lag를 왜 추가로 확인해야 하나요?" 실제 데이터 발표일을 알아야 데이터 누수를 방지할 수 있다. 3월 데이터가 4월에 나오면 3월에는 그 값을 알 수 없듯이 말이다.
+
+3. Persistence baseline, lag1 단독 `LinearRegression`, lag1과 rolling3를 함께 사용한 `LinearRegression`의 MAE와 RMSE를 각각 작성하세요. 어떤 방법의 오차가 가장 낮았으며, rolling3를 추가했을 때 lag1 단독 모델보다 성능이 개선되었나요? Rolling 모델은 baseline보다도 좋았나요?
+    > MAE_model	MAE_base	RMSE_model	RMSE_base	MAE_basic	RMSE_basic
+	1.237252	0.445455	1.279764	0.460237	1.351908	1.408761
+
+    (basic이 lag1 만 학습한 모델)
+
+    오차가 가장 작은건 baseline 의 MAE 이다. rolling3 을 추가하니 모델 성능은 더 좋아졌지만 여전히 baseline 보다는 훨씬 큰 값이다. 
+
+4. 이번 평가 결과는 rolling3 feature의 유용성에 관해 무엇을 말해주나요? 반대로 이번 결과만으로는 무엇을 단정할 수 없나요? 이번 데이터, train/test 분할, test 기간, 모델 종류 및 인과관계의 한계를 포함해 설명하세요.
+    > 이동평균을 적용한 값을 피처로 넣으면 모델의 성능이 좋아지긴 하지만 단정할 수 없다. 또한 무조건 더 좋다라고는 단정할 수 없는 것은 window 의 개수, 데이터의 특성에 다라 다 다른 결과를 도출하게 될 것이니 단정지을 수 없다.
