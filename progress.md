@@ -7,12 +7,12 @@
 | Field | Value |
 |---|---|
 | Start Date | 2026-07-09 |
-| Last Updated | 2026-07-21 |
+| Last Updated | 2026-07-22 |
 | Current Phase | Phase 3 - Feature Engineering |
-| Current Week | 3 |
-| Week Status | Completed |
-| Current Focus | Week 3 Review Check 완료: lag1 선형회귀와 persistence baseline을 같은 test 11행에서 비교함 |
-| Next Session Goal | 사용자 동의 후 Week 4 Feature Experiment 1의 leakage-safe rolling feature를 학습하고, Week 3 모델 대비 증분 가치를 평가한다. |
+| Current Week | 4 |
+| Week Status | In Progress |
+| Current Focus | Week 4 Feature Experiment 1: 기존 데이터에 leakage-safe rolling feature를 추가해 Week 3 모델과 통제 비교하기 |
+| Next Session Goal | rolling window의 source 시점을 확인하고, 같은 test 행·분할·지표에서 rolling feature의 증분 가치를 평가한다. |
 
 ## Completed Evidence
 
@@ -130,6 +130,8 @@
 1. 각 설명 변수 후보가 Prediction Time에 실제로 발표되어 있는지 확인하는 습관을 만든다.
 2. Week 4에서 rolling feature의 source window가 prediction time에 모두 관측 가능한지 확인한다.
 3. notebook에서 절대경로 대신 현재 작업 폴더를 확인하고 저장소 상대경로를 사용하는 습관을 유지한다.
+4. Week 4 Feature Experiment 1 이후 반복이 기계적으로 변하는지와 다음 모델의 데이터 요구조건을 평가해 새로운 경제 데이터 도입 시점을 능동적으로 결정한다.
+5. 새 데이터에서는 target, horizon, publication lag, split 기준과 dataset-specific baseline을 처음부터 다시 정의한다.
 
 ## Week Advancement Evidence
 
@@ -137,7 +139,8 @@
 - 확보된 증거: Exercise 1에서 목표 변수, 예측 대상 시점, 1개월 Forecast Horizon과 Prediction Time의 핵심을 설명했다. Exercise 2에서 feature month와 target month 정렬, `target_next_month` 생성, 중복 행 정리 필요성을 확인했다. Exercise 3에서 시간순 train/test split 기준과 무작위 분할 위험을 확인했다. Exercise 4에서 기준 모델의 예측값을 feature month의 `industrial_production_index`에서 만들고, target을 복사하지 않아야 함을 확인했다. Exercise 5에서 MAE, MSE, RMSE를 계산하고 기준 모델의 test 성능을 해석했다. Week 2 Review Check에서 전체 흐름을 재현하고, test 11행의 기준 모델 평가 지표를 계산 및 설명했다.
 - 추가 확보 증거: Week 3 Exercise 2에서 실제 데이터로 lag feature를 만들고, 첫 행 결측과 예측 시점 기준의 사용 가능성을 확인했다. Week 3 Exercise 3에서 lag feature와 target 생성 후 생기는 결측 행의 의미를 구분하고, `dropna(subset=[...])`로 모델링 후보 행을 만들었다. Week 3 Exercise 4에서 `industrial_production_index_lag1` 하나를 입력으로 첫 `LinearRegression` 모델을 학습하고, 동일한 시간순 test 행에서 baseline과 MAE/RMSE를 비교했다. 초기에는 두 예측값끼리 비교하고 RMSE 대신 MSE를 해석했지만, 수정 후 실제 target과 각 예측값을 비교하는 방식으로 교정했다.
 - 추가 확보 증거: Week 3 Review Check에서 target 정렬, lag feature 생성, 결측 행 제거, 시간순 split, baseline, `LinearRegression`, MAE/RMSE 비교를 compact end-to-end workflow로 재현했다. test 11행에서 실제 `target_next_month`와 각 모델 예측값을 비교했고, baseline이 더 낮은 MAE/RMSE를 보인다고 과장 없이 설명했다.
-- 현재 판단: Week 3 필수 증거가 충족되어 Week 4 진입을 추천한다. 단, 사용자 동의 전에는 `Current Week`를 변경하지 않는다.
+- 현재 판단: Week 3 필수 증거가 충족되어 Week 4 진입을 추천한다. 2026-07-22 사용자 동의로 향후 데이터 전환 방향은 확정했지만, 실제 Week 4 세션 시작 전이므로 현재 Week는 3으로 유지한다. 기존 데이터는 첫 rolling feature의 통제 비교까지만 기본 사용하며, 이후에는 학습 전이와 모델 적합성을 기준으로 새 경제 데이터를 능동적으로 도입한다.
+- 승급 기록: 2026-07-22 사용자가 Week 4 진행에 동의하여 Current Week를 4, Week Status를 In Progress로 갱신했다. 첫 완료 증거는 기존 데이터에서 leakage-safe rolling feature의 증분 가치를 Week 3 모델과 같은 조건으로 비교하는 것이다.
 
 ## Recurring Mistakes
 

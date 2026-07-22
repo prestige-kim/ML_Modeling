@@ -323,6 +323,9 @@ Outcome:
 * Train `RandomForest` and, when the environment supports it, `XGBoost` or a
   documented equivalent boosting model.
 * Compare feature sets and models with a consistent chronological validation design.
+* After one controlled feature experiment on the established dataset, transfer the
+  workflow to an unfamiliar economic dataset so that dataset inspection, target
+  definition, feature selection, and split design require fresh judgment.
 
 Completion evidence:
 
@@ -330,6 +333,8 @@ Completion evidence:
   same baseline, split, and metrics.
 * An error analysis that identifies where the best model fails without claiming
   causality from predictive performance.
+* One transfer exercise showing that the workflow can be adapted to a dataset whose
+  columns, date range, missingness, and prediction question are not already familiar.
 
 ## Week 5 — Time-Series Forecasting Models
 
@@ -338,8 +343,8 @@ Outcome:
 * Diagnose trend, seasonality, and stationarity at an introductory practical level.
 * Build ARIMA and SARIMA forecasts; run Prophet when dependency and data conditions
   permit, otherwise document its model-selection role conceptually.
-* Compare statistical forecasts with the Week 2 baseline and the strongest Week 4
-  ML model on a common forecast horizon and test period.
+* Compare statistical forecasts with a persistence baseline and an appropriate Week
+  4 ML workflow rebuilt on the same dataset, forecast horizon, and test period.
 
 Completion evidence:
 
@@ -398,6 +403,46 @@ Repetition is allowed only when:
 In those cases, state exactly why the repetition is necessary and keep it smaller
 than the new modeling work.
 
+## Dataset Progression and Transfer Rule
+
+Dataset reuse is a controlled-comparison tool, not the default for the whole
+bootcamp. Reuse an established dataset only while holding the data fixed makes it
+materially easier to isolate the effect of a new feature, model, or validation
+choice. Once familiarity makes inspection or feature engineering mechanical, move
+to an unfamiliar dataset and test whether the learner can reconstruct the workflow.
+
+The coach must actively reassess the dataset before each new experiment. Introduce
+or switch to a new dataset when one or more of the following applies:
+
+* the main learning evidence is transfer to unfamiliar columns, missingness, dates,
+  frequencies, or release constraints;
+* the established dataset is too short or too clean for the model assumptions,
+  seasonality, validation design, or error analysis being taught;
+* the learner is reproducing memorized preprocessing decisions instead of explaining
+  why they fit the new prediction question;
+* continued reuse no longer adds a fair controlled comparison with prior results.
+
+Do not switch merely for novelty when doing so would prevent a necessary
+apples-to-apples comparison. When switching, state why the new dataset is suitable,
+define a dataset-specific baseline, and compare models only on common rows, horizon,
+split boundaries, and metrics. Verify that every candidate feature would actually be
+available at prediction time, including publication lags and revisions where
+relevant.
+
+Default execution:
+
+* Use `data/week1_macro_practice.csv` for Week 4 Feature Experiment 1 so its rolling
+  features can be compared directly with the completed Week 3 model.
+* During Week 4, introduce an unfamiliar real economic dataset for the transfer
+  exercise and use it for later experiments when it supports the required model and
+  validation evidence.
+* Select Week 5 data based on adequate history, frequency, seasonality, and a usable
+  holdout period; do not force the original practice CSV into ARIMA/SARIMA work when
+  it is not suitable.
+* Use a separate real economic question and auditable dataset for Week 6 Capstone.
+  Reusing a prior dataset requires an explicit learning justification and must add
+  genuinely new data construction or operational constraints.
+
 ## Remaining Exercise Sequence
 
 The default sequence from Week 3 Exercise 4 is:
@@ -408,20 +453,25 @@ The default sequence from Week 3 Exercise 4 is:
    comparison; do not repeat isolated `shift`, missing-row, or date-alignment drills.
 3. Week 4 Feature Experiment 1: add leakage-safe rolling features and measure their
    incremental value against the Week 3 model.
-4. Week 4 Feature Experiment 2: add differencing and date features, then perform a
-   feature ablation comparison.
-5. Week 4 Model Experiment 1: train `RandomForest` with the established feature set
+4. Week 4 Transfer Experiment: inspect an unfamiliar economic dataset, define its
+   prediction question and leakage-safe validation design, then rebuild a baseline
+   and an initial feature set without copying dataset-specific decisions.
+5. Week 4 Feature Experiment 2: on the dataset best suited to the evidence goal, add
+   differencing and date features, then perform a feature ablation comparison.
+6. Week 4 Model Experiment 1: train `RandomForest` with the established feature set
    and compare it under the same split and metrics.
-6. Week 4 Model Experiment 2: train a boosting model when supported and conduct
+7. Week 4 Model Experiment 2: train a boosting model when supported and conduct
    focused test-period error analysis.
-7. Week 5 Forecasting Experiment 1: diagnose trend, seasonality, and stationarity as
+8. Week 5 Forecasting Experiment 1: diagnose trend, seasonality, and stationarity as
    inputs to model selection, then fit an ARIMA candidate.
-8. Week 5 Forecasting Experiment 2: fit a SARIMA candidate and compare it with ARIMA,
-   the baseline, and the strongest Week 4 ML model on a common test period.
-9. Week 5 Optional Experiment: use Prophet only when it adds a distinct model-family
+9. Week 5 Forecasting Experiment 2: fit a SARIMA candidate and compare it with ARIMA,
+   a dataset-specific baseline, and an appropriate Week 4 ML workflow on a common
+   test period.
+10. Week 5 Optional Experiment: use Prophet only when it adds a distinct model-family
    comparison and the environment supports it; it must not delay the capstone.
-10. Week 6 Capstone: define the forecasting question, build the dataset, compare the
-    candidate families, select a model, analyze errors, and document limitations.
+11. Week 6 Capstone: define a separate real economic forecasting question, build an
+    auditable dataset, compare the candidate families, select a model, analyze
+    errors, and document limitations.
 
 The coach may split a difficult item into smaller sessions, but every split session
 must still produce a new intermediate artifact that directly supports that item.
