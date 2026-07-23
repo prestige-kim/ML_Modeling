@@ -145,6 +145,7 @@
 3. notebook에서 절대경로 대신 현재 작업 폴더를 확인하고 저장소 상대경로를 사용하는 습관을 유지한다.
 4. 새 데이터에서 differencing과 date feature의 증분 가치를 feature ablation으로 확인한다.
 5. 이후 글 답안이 필요한 Exercise는 제시 시점에 질문, 기대 답변 범위와 최소 통과 기준을 명시한다.
+6. Week 4 Feature Experiment 2 통과 후 `notes/week4.md`에 순환형 월 feature의 목적, 일반 월 번호의 한계, lag/rolling/diff와의 역할 차이, 계절조정 여부에 따른 기대 효과와 실제 ablation 결과를 함께 기록한다.
 
 ## Week Advancement Evidence
 
@@ -213,3 +214,8 @@
 
 - 실수: notebook에서 상대경로를 사용할 때 파일 위치 기준으로 해석된다고 생각할 수 있었다.
 - 교정: 상대경로는 보통 현재 작업 폴더 기준으로 해석된다. `os.getcwd()`로 현재 작업 폴더를 확인한 뒤 경로를 정한다.
+
+### New Concept Rationale Before Implementation
+
+- 운영 실수: 순환형 월 feature를 소개하면서 수식과 구현 방법을 먼저 제시했지만, 일반 월 번호가 12월과 1월을 멀게 표현한다는 한계, 순환형 표현이 모델에 추가하는 정보, 계절조정 데이터에서 효과가 작을 수 있다는 조건을 충분히 연결하지 않았다.
+- 교정: 새 개념은 API보다 먼저 기존 방법의 한계, 적용 전후 모델 입력의 차이, 유용하거나 불필요한 조건과 이번 Exercise의 검증 방법을 설명한다. 학습자가 "왜 사용하는가, 무엇이 달라지는가, 효과를 어떻게 판단하는가"를 별도 질문 없이 답할 수 있어야 Exercise를 제시한다.
