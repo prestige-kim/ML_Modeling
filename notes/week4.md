@@ -129,3 +129,70 @@
 - 새 데이터로 workflow를 옮길 때 target, horizon, split과 baseline을 다시 정의하고, 모든 모델을 공통 test 행에서 비교해야 한다.
 - 최신 CSV만으로는 과거 release date와 당시 vintage를 완전히 복원할 수 없으므로, 계산된 backtest 성능을 그대로 실시간 성능이라고 단정할 수 없다.
 - 이번 새 데이터에서도 단순 persistence baseline이 lag1+rolling3 선형회귀보다 낮은 test 오차를 보였다.
+
+## Feature Experiment 2 - Differencing and cyclical date feature ablation
+
+완료 상태: 통과
+
+사용 데이터셋: `data/week4_korea_cli.csv`
+
+답안:
+
+- `answers/code/week4/week4_2.ipynb`
+- `answers/text/week4/week4_2.txt`
+
+실습 목표:
+
+- 수준과 평활 정보를 담은 기존 feature set에 최근 변화량과 순환형 월 정보를 단계적으로 추가한다.
+- 2020-01~2024-11을 잠긴 test로 남기고 train 2000-01~2014-12, validation 2015-01~2019-12로 feature 선택 구간을 분리한다.
+- 공통 validation 행에서 persistence baseline과 세 `LinearRegression` feature set의 MAE/RMSE를 비교한다.
+- 계산 가능한 feature와 실제 out-of-sample 성능에 도움이 되는 feature를 구분한다.
+
+배운 개념:
+
+- `cli_diff1`은 현재 CLI 값에서 직전 달 값을 뺀 변화량이며 변화율이 아니다. 양수는 전월 대비 상승, 음수는 하락을 뜻한다.
+- 월 번호 12와 1을 일반 숫자로 넣으면 멀리 떨어진 값처럼 표현된다. `month_sin`과 `month_cos`는 월을 원 위 좌표로 바꿔 12월과 1월의 인접성을 표현한다.
+- 달력의 월은 미리 알 수 있지만 CLI의 기준월 값은 prediction time에 아직 발표되지 않았을 수 있고, 현재 CSV의 과거 값은 당시 최초 발표값이 아니라 사후 수정값일 수 있다.
+- 계절조정된 CLI에서는 순환형 월 feature의 효과가 작을 수 있으며, 유용성은 ablation 결과로 확인해야 한다.
+- 2020년 이후 구간을 반복적으로 보며 feature를 선택하지 않도록 잠긴 test로 남기고 별도의 validation 구간에서 A/B/C를 비교했다.
+- 공통 validation 60행에서 baseline MAE/RMSE는 약 0.0798/0.0935, A(lag1+rolling3)는 약 0.1776/0.2120, B(A+diff1)는 약 0.0108/0.0137, C(B+month_sin+month_cos)는 약 0.0121/0.0154였다.
+- `cli_diff1`을 추가한 B는 A보다 크게 개선되었지만, 순환형 월 feature를 추가한 C는 B보다 소폭 악화되었다. 따라서 이번 validation에서는 B가 가장 좋은 선형회귀 후보이며 잠긴 test의 최종 성능은 아직 확인하지 않았다.
+
+새로 사용한 함수/메서드:
+
+- `Series.diff(periods=1)`
+  - 필요한 이유: 현재 값과 직전 달 값 사이의 변화량을 feature로 만들기 위해 사용한다.
+  - 주요 인수: `periods=1`은 한 행 전 값과 비교한다.
+  - 반환값: 원래 index에 맞는 새 `Series`를 반환하며 첫 행은 비교 대상이 없어 결측이다.
+  - 원본 변경 여부: 원본 `Series`를 변경하지 않는다.
+  - 재할당 필요 여부: feature로 사용하려면 새 컬럼에 저장해야 한다.
+  - 주의점: `periods=-1`은 미래 값과 비교하므로 feature에 미래 정보를 넣을 수 있다.
+- `Series.dt.month`
+  - 필요한 이유: datetime 날짜에서 1~12의 월 번호를 추출한다.
+  - 반환값: 원래 index를 유지하는 정수형 `Series`를 반환한다.
+  - 원본 변경 여부: 날짜 `Series`를 변경하지 않는다.
+  - 재할당 필요 여부: 반복 사용하거나 feature로 변환하려면 변수 또는 새 컬럼에 저장한다.
+- `np.sin()`과 `np.cos()`
+  - 필요한 이유: 월 번호를 원 위의 두 좌표로 바꿔 연말과 연초의 순환적 인접성을 표현한다.
+  - 주요 인수: 이번 실습에서는 `2 * np.pi * month / 12`로 변환한 각도를 받는다.
+  - 반환값: 입력과 같은 길이의 새 수치 배열 또는 `Series` 형태 결과를 반환한다.
+  - 원본 변경 여부: 입력 월 번호를 변경하지 않는다.
+  - 재할당 필요 여부: 모델 feature로 사용하려면 `month_sin`, `month_cos` 컬럼에 저장해야 한다.
+
+재사용한 함수/메서드:
+
+- `shift()`, `rolling().mean()`, `dropna(subset=[...])`로 target과 기존 feature를 만든 뒤 공통 유효 행을 선택했다.
+- `LinearRegression`, `fit()`, `predict()`와 MAE/RMSE 계산을 A/B/C의 동일 validation 비교에 재사용했다.
+
+수정된 실수:
+
+- 결과표에서 baseline의 `validation_rows`를 feature 개수처럼 1로 기록했으나, 실제 평가 행 수인 60으로 수정했다.
+- train과 validation 행 수를 명시적으로 출력하지 않았으나 180행과 60행을 출력하도록 보완했다.
+- 글 답안에서 `cli_diff1`을 변화율이라고 표현했으나 현재 값과 직전 값의 차이인 변화량으로 교정했다.
+- release date와 revision을 한 문장에 섞었으나, 기준월 값이 아직 발표되지 않은 위험과 현재 CSV가 사후 수정값을 담을 위험으로 구분했다.
+
+핵심 정리:
+
+- Feature ablation은 모든 후보를 같은 행과 같은 분할에서 비교해야 새 feature의 증분 가치를 분리할 수 있다.
+- 이번 validation에서 최근 변화량은 큰 개선을 보였지만 순환형 월 feature는 추가 개선을 만들지 못했다.
+- Validation에서 선택한 feature set이 잠긴 test에서도 유지되는지는 아직 확인하지 않았으므로 최종 모델로 확정할 수 없다.
