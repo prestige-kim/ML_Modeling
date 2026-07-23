@@ -7,12 +7,12 @@
 | Field | Value |
 |---|---|
 | Start Date | 2026-07-09 |
-| Last Updated | 2026-07-22 |
+| Last Updated | 2026-07-23 |
 | Current Phase | Phase 3 - Feature Engineering |
 | Current Week | 4 |
 | Week Status | In Progress |
-| Current Focus | Week 4 Feature Experiment 1 완료: lag1+rolling3 모델의 증분 가치를 lag1 모델 및 baseline과 공통 test 행에서 비교함 |
-| Next Session Goal | unfamiliar economic dataset을 점검하고 dataset-specific prediction question, baseline, publication lag와 leakage-safe validation design을 새로 정의한다. |
+| Current Focus | Week 4 Transfer Experiment 완료: 새 한국 CLI 데이터에서 날짜 연속성, prediction question, publication/revision 한계와 공통 test baseline/model 비교를 재구축함 |
+| Next Session Goal | 한국 CLI 데이터에서 differencing과 date feature를 추가하고 공통 split에서 feature ablation comparison을 수행한다. |
 
 ## Completed Evidence
 
@@ -101,6 +101,11 @@
   - 동일한 test 11행에서 persistence baseline, lag1 선형회귀, lag1+rolling3 선형회귀의 MAE/RMSE를 비교했다.
   - rolling 모델은 lag1 모델보다 오차가 감소했지만 baseline보다 오차가 컸으며, publication lag를 확인해야 실제 예측 시점의 사용 가능성을 판단할 수 있음을 설명했다.
   - 답안: `answers/code/week4/week4_1.ipynb`, `answers/text/week4/week4_1.txt`
+- Transfer Experiment - Korea Composite Leading Indicator
+  - 낯선 월별 한국 CLI 데이터에서 중복 날짜, 값의 결측, 날짜 정렬과 누락 월을 구분해 점검하고 1개월 horizon 예측 문제를 새로 정의했다.
+  - 2000-01~2019-12 train과 2020-01~2024-11 test에서 persistence baseline과 lag1+rolling3 `LinearRegression`을 공통 행으로 비교했다.
+  - baseline(MAE 약 0.1942, RMSE 약 0.2245)이 선형회귀(MAE 약 0.3632, RMSE 약 0.4465)보다 낮은 test 오차를 보였고, release date와 historical vintage가 없는 최신 CSV의 한계를 확인했다.
+  - 답안: `answers/code/week4/week4_transfer.ipynb`, `answers/text/week4/week4_transfer.txt`
 
 ## Diagnostic Scores
 
@@ -109,11 +114,11 @@
 | Area | Score |
 |---|---:|
 | Pandas | 7/10 |
-| EDA | 6/10 |
+| EDA | 7/10 |
 | Visualization | 3/10 |
 | Missing Value Handling | 4/10 |
 | Feature Engineering | 7/10 |
-| Model Evaluation | 6/10 |
+| Model Evaluation | 7/10 |
 | Leakage Awareness | 8/10 |
 | Time-Series Intuition | 8/10 |
 
@@ -138,8 +143,8 @@
 1. 각 설명 변수 후보가 Prediction Time에 실제로 발표되어 있는지 확인하는 습관을 만든다.
 2. 새 데이터에서 rolling feature를 사용할 때 source window뿐 아니라 실제 release date와 publication lag를 확인한다.
 3. notebook에서 절대경로 대신 현재 작업 폴더를 확인하고 저장소 상대경로를 사용하는 습관을 유지한다.
-4. Week 4 Feature Experiment 1 이후 반복이 기계적으로 변하는지와 다음 모델의 데이터 요구조건을 평가해 새로운 경제 데이터 도입 시점을 능동적으로 결정한다.
-5. 새 데이터에서는 target, horizon, publication lag, split 기준과 dataset-specific baseline을 처음부터 다시 정의한다.
+4. 새 데이터에서 differencing과 date feature의 증분 가치를 feature ablation으로 확인한다.
+5. 이후 글 답안이 필요한 Exercise는 제시 시점에 질문, 기대 답변 범위와 최소 통과 기준을 명시한다.
 
 ## Week Advancement Evidence
 
@@ -150,6 +155,7 @@
 - 현재 판단: Week 3 필수 증거가 충족되어 Week 4 진입을 추천한다. 2026-07-22 사용자 동의로 향후 데이터 전환 방향은 확정했지만, 실제 Week 4 세션 시작 전이므로 현재 Week는 3으로 유지한다. 기존 데이터는 첫 rolling feature의 통제 비교까지만 기본 사용하며, 이후에는 학습 전이와 모델 적합성을 기준으로 새 경제 데이터를 능동적으로 도입한다.
 - 승급 기록: 2026-07-22 사용자가 Week 4 진행에 동의하여 Current Week를 4, Week Status를 In Progress로 갱신했다. 첫 완료 증거는 기존 데이터에서 leakage-safe rolling feature의 증분 가치를 Week 3 모델과 같은 조건으로 비교하는 것이다.
 - Week 4 추가 증거: Feature Experiment 1에서 feature 생성 전에 중간 결측 월을 삭제하면 `shift`와 행 기반 `rolling`의 시점 의미가 왜곡될 수 있음을 교정했다. 공통 유효 행과 동일한 test 11행에서 baseline(MAE 0.4455, RMSE 0.4602), lag1 선형회귀(MAE 1.3519, RMSE 1.4088), lag1+rolling3 선형회귀(MAE 1.2373, RMSE 1.2798)를 비교했다. Rolling feature는 lag1 모델을 개선했지만 baseline을 넘지 못했으며, 실제 사용 가능성에는 publication lag 확인이 필요함을 설명했다.
+- Week 4 Transfer 추가 증거: 한국 CLI 데이터에서 날짜 정렬과 월별 연속성을 구분하고 `pd.date_range(freq='MS')`와 `Index.difference()`로 1990-01~2026-06 사이 누락 월이 없음을 확인했다. 새 데이터에 맞춰 target, 1개월 horizon, 시간순 split과 persistence baseline을 재구축했으며, 공통 test 행에서 baseline(MAE 0.1942, RMSE 0.2245)이 lag1+rolling3 선형회귀(MAE 0.3632, RMSE 0.4465)보다 낮은 오차를 보였다. 최신 CSV에는 실제 release date와 historical vintage가 없어 실시간 가용성과 revision leakage를 완전히 검증할 수 없다는 한계를 확인했다. Week 4의 남은 증거는 differencing/date feature ablation, tree/boosting 모델 비교와 error analysis다.
 
 ## Recurring Mistakes
 
@@ -196,7 +202,7 @@
 ### Exercise Prompt Specificity
 
 - 실수: 과제 질문이 일반적인데 리뷰에서 더 구체적인 답안을 사후 요구했다.
-- 교정: 다음 세션부터 문항에 사용할 컬럼명, 예시 날짜, 예측 시점, target 시점, 기대 답변 범위와 통과 기준을 명시한다.
+- 교정: 문항에 사용할 컬럼명, 예시 날짜, 예측 시점, target 시점, 기대 답변 범위와 통과 기준을 Exercise 제시 시점에 명시한다. Week 4 Transfer 리뷰에서 이 문제가 재발했으므로 사후 추가 요구는 통과 기준에서 제외했다.
 
 ### Month and Date Wording
 
