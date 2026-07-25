@@ -196,3 +196,58 @@
 - Feature ablation은 모든 후보를 같은 행과 같은 분할에서 비교해야 새 feature의 증분 가치를 분리할 수 있다.
 - 이번 validation에서 최근 변화량은 큰 개선을 보였지만 순환형 월 feature는 추가 개선을 만들지 못했다.
 - Validation에서 선택한 feature set이 잠긴 test에서도 유지되는지는 아직 확인하지 않았으므로 최종 모델로 확정할 수 없다.
+
+## Model Experiment 1 - RandomForest model-family comparison
+
+완료 상태: 통과
+
+사용 데이터셋: `data/week4_korea_cli.csv`
+
+답안:
+
+- `answers/code/week4/week4_3.ipynb`
+- `answers/text/week4/week4_3.txt`
+
+실습 목표:
+
+- Feature Experiment 2에서 선택한 feature set B를 고정한다.
+- 2000-01~2014-12 train과 2015-01~2019-12 validation을 유지한다.
+- Persistence baseline, `LinearRegression`, `RandomForestRegressor`를 동일한 validation 60행에서 비교한다.
+- 2020-01~2024-11 test를 모델 선택 중에는 잠긴 상태로 유지한다.
+
+배운 개념:
+
+- `RandomForestRegressor`는 여러 decision tree의 예측을 평균해 비선형 관계와 feature interaction을 표현할 수 있지만, 복잡한 모델이라는 이유만으로 out-of-sample 성능이 자동으로 좋아지지는 않는다.
+- 모델 family의 차이를 비교하려면 feature set, target, train 기간, validation 행과 평가 지표를 동일하게 유지해야 한다.
+- 공통 validation MAE/RMSE는 LinearRegression 약 0.0108/0.0137, persistence baseline 약 0.0798/0.0935, RandomForest 약 0.1947/0.2516이었다.
+- 이번 validation에서는 LinearRegression이 가장 낮은 오차를 보였고 RandomForest는 baseline보다도 오차가 컸다. 이 판단은 2015-01~2019-12 validation에 한정된다.
+- Test 결과를 반복해서 보며 모델을 바꾸면 test가 모델 선택용 validation처럼 사용된다. 최종 후보를 정한 뒤 잠긴 test를 한 번 평가하고, 같은 test 결과에 맞춰 설정을 다시 변경하지 않아야 한다.
+
+새로 사용한 클래스:
+
+- `RandomForestRegressor`
+  - 필요한 이유: 같은 feature set에서 선형 모델과 tree ensemble의 out-of-sample 성능을 비교하기 위해 사용한다.
+  - 주요 인수: `n_estimators=200`은 트리 수, `max_depth=3`은 각 트리의 최대 깊이, `min_samples_leaf=5`는 leaf에 필요한 최소 학습 행 수, `random_state=42`는 무작위 과정을 재현하기 위한 값이다.
+  - 반환값: 객체 생성 시 학습 전 estimator를 만들고, `fit()` 후에는 학습된 모델 객체가 된다. `predict()`는 validation 행 수와 같은 길이의 새 `numpy.ndarray`를 반환했다.
+  - 원본 변경 여부: 객체 생성과 `predict()`는 입력 DataFrame을 변경하지 않는다. `fit()`은 모델 객체 내부의 학습 상태를 변경하지만 `X_train_B`와 `y_train`을 직접 변경하지 않는다.
+  - 재할당 필요 여부: 생성한 estimator와 `predict()` 결과는 이후 평가에 사용하려면 변수에 저장해야 한다.
+  - 주의점: validation 성능을 반복 확인하며 하이퍼파라미터를 과도하게 조정하면 validation에도 과적합할 수 있고, target이나 미래 정보를 feature에 넣으면 Data Leakage가 발생한다.
+
+재사용한 함수/메서드:
+
+- `shift()`, `rolling().mean()`, `diff()`로 feature set B와 다음 달 target을 다시 구성했다.
+- `LinearRegression`, `fit()`, `predict()`를 같은 feature set B의 비교 모델에 재사용했다.
+- MAE와 RMSE를 세 후보의 동일 validation 행에서 계산하고 `sort_values(by='MAE')`로 결과표를 정렬했다.
+
+수정된 실수:
+
+- Week 4 Feature Experiment 2의 set A/C, 순환형 월 feature와 A/C 모델이 남아 있어 모델 family 비교의 중심이 흐려졌으나, set B 중심 workflow로 정리했다.
+- 처음에는 RandomForest 예측 배열의 객체 종류 대신 내부 숫자 자료형인 `dtype`을 출력했으나 `type(...)`으로 수정했다.
+- Baseline과 LinearRegression RMSE에서 제곱근과 평균의 순서를 잘못 적용해 MAE와 같은 값이 나왔으나, 제곱오차의 평균에 제곱근을 적용하도록 수정했다.
+- 결과표의 `feature_set` 값은 feature 개수로 기록했지만 두 ML 모델의 실제 입력이 동일한 `set_B`임을 코드에서 확인했으므로 성능 비교의 핵심 오류로 보지 않았다.
+
+핵심 정리:
+
+- 공정한 model-family comparison은 모델 외의 feature, 분할, target, 평가 행과 metric을 고정해야 한다.
+- 이번 validation에서는 단순한 LinearRegression이 RandomForest보다 크게 낮은 오차를 보였다. 복잡도보다 out-of-sample 증거를 기준으로 모델을 선택해야 한다.
+- 모델 선택이 끝나기 전에는 잠긴 test를 보지 않아야 최종 평가의 독립성을 유지할 수 있다.

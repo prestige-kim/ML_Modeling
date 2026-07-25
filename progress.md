@@ -7,12 +7,12 @@
 | Field | Value |
 |---|---|
 | Start Date | 2026-07-09 |
-| Last Updated | 2026-07-23 |
+| Last Updated | 2026-07-25 |
 | Current Phase | Phase 3 - Feature Engineering |
 | Current Week | 4 |
 | Week Status | In Progress |
-| Current Focus | Week 4 Feature Experiment 2 완료: 한국 CLI 데이터에서 differencing과 순환형 월 feature를 추가하고 잠긴 test와 분리된 공통 validation에서 feature ablation을 수행함 |
-| Next Session Goal | 한국 CLI 데이터의 확정 feature set으로 RandomForest를 학습하고 같은 validation 행에서 persistence baseline 및 LinearRegression과 비교한다. |
+| Current Focus | Week 4 Model Experiment 1 완료: 확정 feature set B로 RandomForest를 학습하고 공통 validation 60행에서 persistence baseline 및 LinearRegression과 비교함 |
+| Next Session Goal | 같은 한국 CLI 예측 문제에 boosting model을 추가하고, 최종 후보를 정한 뒤 잠긴 test에서 focused error analysis를 수행한다. |
 
 ## Completed Evidence
 
@@ -111,6 +111,11 @@
   - 공통 validation 60행에서 persistence baseline과 A(lag1+rolling3), B(A+diff1), C(B+month_sin+month_cos) `LinearRegression`을 비교했다.
   - B의 validation MAE/RMSE가 약 0.0108/0.0137로 가장 낮았고, 순환형 월 feature를 추가한 C는 약 0.0121/0.0154로 소폭 악화되어 이번 validation에서 추가 증분 가치를 보이지 않았다.
   - 답안: `answers/code/week4/week4_2.ipynb`, `answers/text/week4/week4_2.txt`
+- Model Experiment 1 - RandomForest model-family comparison
+  - Feature set B(`cli_lag1`, `cli_rolling3`, `cli_diff1`)를 고정하고 2000-01~2014-12 train, 2015-01~2019-12 validation 60행에서 persistence baseline, `LinearRegression`, `RandomForestRegressor`를 비교했다.
+  - Validation MAE/RMSE는 LinearRegression 약 0.0108/0.0137, baseline 약 0.0798/0.0935, RandomForest 약 0.1947/0.2516으로 LinearRegression이 가장 낮았다.
+  - 2020-01~2024-11 test를 모델 선택에 사용하지 않았고, 최종 후보를 정한 뒤 한 번 평가해야 하는 이유를 설명했다.
+  - 답안: `answers/code/week4/week4_3.ipynb`, `answers/text/week4/week4_3.txt`
 
 ## Diagnostic Scores
 
@@ -123,7 +128,7 @@
 | Visualization | 3/10 |
 | Missing Value Handling | 4/10 |
 | Feature Engineering | 8/10 |
-| Model Evaluation | 7/10 |
+| Model Evaluation | 8/10 |
 | Leakage Awareness | 8/10 |
 | Time-Series Intuition | 8/10 |
 
@@ -148,9 +153,9 @@
 1. 각 설명 변수 후보가 Prediction Time에 실제로 발표되어 있는지 확인하는 습관을 만든다.
 2. 새 데이터에서 rolling feature를 사용할 때 source window뿐 아니라 실제 release date와 publication lag를 확인한다.
 3. notebook에서 절대경로 대신 현재 작업 폴더를 확인하고 저장소 상대경로를 사용하는 습관을 유지한다.
-4. Feature Experiment 2에서 선택한 feature set B를 `RandomForest`에 적용하고 동일 validation 행에서 모델 family의 증분 가치를 확인한다.
-5. 이후 글 답안이 필요한 Exercise는 제시 시점에 질문, 기대 답변 범위와 최소 통과 기준을 명시한다.
-6. RandomForest 비교에서도 2020-01~2024-11 잠긴 test를 모델 선택에 사용하지 않는다.
+4. 같은 공통 validation 설계에서 boosting model을 비교해 Week 4의 세 번째 model family 증거를 만든다.
+5. 최종 후보를 정한 뒤 잠긴 test를 한 번만 열고, 오차가 큰 시점을 찾는 focused error analysis를 수행한다.
+6. 이후 글 답안이 필요한 Exercise는 제시 시점에 질문, 기대 답변 범위와 최소 통과 기준을 명시한다.
 
 ## Week Advancement Evidence
 
@@ -163,6 +168,7 @@
 - Week 4 추가 증거: Feature Experiment 1에서 feature 생성 전에 중간 결측 월을 삭제하면 `shift`와 행 기반 `rolling`의 시점 의미가 왜곡될 수 있음을 교정했다. 공통 유효 행과 동일한 test 11행에서 baseline(MAE 0.4455, RMSE 0.4602), lag1 선형회귀(MAE 1.3519, RMSE 1.4088), lag1+rolling3 선형회귀(MAE 1.2373, RMSE 1.2798)를 비교했다. Rolling feature는 lag1 모델을 개선했지만 baseline을 넘지 못했으며, 실제 사용 가능성에는 publication lag 확인이 필요함을 설명했다.
 - Week 4 Transfer 추가 증거: 한국 CLI 데이터에서 날짜 정렬과 월별 연속성을 구분하고 `pd.date_range(freq='MS')`와 `Index.difference()`로 1990-01~2026-06 사이 누락 월이 없음을 확인했다. 새 데이터에 맞춰 target, 1개월 horizon, 시간순 split과 persistence baseline을 재구축했으며, 공통 test 행에서 baseline(MAE 0.1942, RMSE 0.2245)이 lag1+rolling3 선형회귀(MAE 0.3632, RMSE 0.4465)보다 낮은 오차를 보였다. 최신 CSV에는 실제 release date와 historical vintage가 없어 실시간 가용성과 revision leakage를 완전히 검증할 수 없다는 한계를 확인했다. Week 4의 남은 증거는 differencing/date feature ablation, tree/boosting 모델 비교와 error analysis다.
 - Week 4 Feature Experiment 2 추가 증거: 한국 CLI 데이터에서 `cli_diff1`, `month_sin`, `month_cos`를 만들고 모든 후보를 공통 validation 60행에서 비교했다. 2020-01~2024-11 구간은 잠긴 test로 분리했으며, feature set B(lag1+rolling3+diff1)가 validation MAE 약 0.0108, RMSE 약 0.0137로 baseline과 A/C보다 낮았다. 순환형 월 feature는 계산 가능했지만 이번 validation에서는 B보다 오차를 소폭 증가시켰다. 글 답안에서 차분을 변화율이 아닌 변화량으로 교정하고, 기준월·release date·historical revision 위험을 달력 feature의 사전 가용성과 구분했다. Week 4의 남은 증거는 tree/boosting 모델 비교와 error analysis다.
+- Week 4 Model Experiment 1 추가 증거: Feature set B를 고정한 채 같은 train 180행과 validation 60행에서 persistence baseline, LinearRegression, RandomForest를 비교했다. Validation MAE/RMSE는 LinearRegression 0.0108/0.0137, baseline 0.0798/0.0935, RandomForest 0.1947/0.2516으로, 더 복잡한 tree ensemble이 자동으로 더 좋은 성능을 내지 않음을 확인했다. 잠긴 test를 반복 사용하면 모델 선택용 validation으로 변질된다는 점을 설명했다. Week 4의 남은 필수 증거는 boosting model 비교와 focused test-period error analysis다.
 
 ## Recurring Mistakes
 

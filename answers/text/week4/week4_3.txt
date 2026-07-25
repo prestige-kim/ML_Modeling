@@ -1,0 +1,16 @@
+	model	feature_set	validation_rows	MAE	RMSE
+linear_regression_B	B_linear	3.0	60.0	0.010768	0.013730
+persistence_baseline	baseline	1.0	60.0	0.079752	0.093522
+random_forest_B	B_rf	3.0	60.0	0.194660	0.251603
+
+더 앚은 오차를 보인 모델은 선형모델이다. MAE 0.010768, RMSE 0.013730 로 압도적으로 작은 오차를 가지고 있다. 
+하지만 이것은 validation 에 대해서만 진행한 결과이다. 
+
+이 결과를 모델 family 의 차이로 해석하려면 두 모델에 동일한 feature set, 동일한 train 기간, validation 60 행, 그리고 동일한 target을 통해 얻는 MAE, RMSE 를 확인한다.
+
+2020 1월 ~ 2024 11월 의 test 는 실제 예측을 할 때 확인하기 위한 세트이다. validation 은 어떤 모델을 선택할건지 확인하기 위함이였기 때문이다. 
+따라서 우리가 정한 선형회귀 모델을 test 에 사용해서 결과를 얻어야만 한다. 
+
+validation 에서 굳이 확인하고 test 에 적용하는 이유는 test 에 반복적으로 모델을 검정한다면 test가 test 역할을 못하고 validation 역할인 모델 선택 역할만 하게 되기 땜누이다. 
+
+test 에서 얻은 결과를 보고 test 에 맞춰 모델을 수정하거나 하면 과적합이 일어나므로 금지다.
