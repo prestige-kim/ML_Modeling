@@ -1,0 +1,54 @@
+T1. Boosting 비교 결과
+네 후보의 validation MAE/RMSE를 숫자로 제시하세요.
+GradientBoostingRegressor가 RandomForest와 LinearRegression 중 어느 모델보다 좋거나 나빴는지 설명하세요.
+복잡한 모델이 자동으로 더 좋다고 결론 내리면 안 됩니다.
+최소 통과 기준: 공통 validation 60행, feature set B, 적어도 MAE 수치와 결과의 적용 기간을 직접 언급할 것.
+
+> 
+	model	evaluation_period	evaluation_rows	MAE	RMSE
+linear_regression_B	linear	1795 days	60.0	0.010768	0.013730
+persistence_baseline	baseline	1795 days	60.0	0.079752	0.093522
+gradient_boosting_B	GB	1795 days	60.0	0.141976	0.181227
+random_forest_B	RF	1795 days	60.0	0.194660
+
+MAE, RMSE 를 기준으로 판단했을 때는 LinearRegression 이 가장 작은 오차를 도출했다. 
+
+T2. 최종 후보 선택
+선택한 ML 모델명을 밝히세요.
+선택 근거로 validation MAE를 사용하고, test 결과는 선택에 사용하지 않았음을 설명하세요.
+train+validation 재학습이 왜 허용되는지도 설명하세요.
+최소 통과 기준: 모델 선택 → 재학습 → test 평가의 순서를 명확히 구분할 것.
+
+> 선형회귀. 학습과 모델 선정을 위해 train, validation 을 거쳤고 이 때는 절대 test 를 건들지 않았다. 
+train + validation 은 새로운 학습 데이터셋이기 때문에 재학습을 해도 된다. 그 후에 새로운 데이터셋인 테스트로 하면 된다.
+
+T3. 최종 test 비교
+2020-01~`2024-11` feature date의 공통 test 행에서 baseline과 최종 모델의 MAE/RMSE를 숫자로 비교하세요.
+어느 후보가 더 낮은 오차를 보였는지 이번 test 기간에 한정해 판단하세요.
+최소 통과 기준: test 결과를 다른 기간이나 실시간 운영 성능으로 일반화하지 않을 것.
+
+> 	MAE	RMSE
+persistence_baseline	0.194231	0.224456
+linear_regression	0.017234	0.021142
+
+
+baseline 과 비교해보면 최종 모델인 linear 모델이 더 작은 오차를 가짐을 볼 수 있다. test 에 한하여 이런 결과를 낸 것이긴 하다. 
+그렇다면 질문. 실무에서 예측을 할 때는 test 에서 좋은 성능을 내는 모델을 고르는 과정이 지금까지와는 같을텐데 새로운 데이터셋으로 예측 일을 할 때는 그냥 앞에서 고른 최적의 모델로 계속 예측을 하는거임?
+
+
+T4. Focused error analysis
+absolute error가 가장 큰 feature date와 그 행의 target month를 제시하세요.
+실제값, 예측값, signed error, absolute error를 숫자로 제시하세요.
+과대예측인지 과소예측인지 판단하세요.
+상위 5개 오차에 공통적인 패턴이 관찰되는지 기술하세요. 패턴이 없으면 없다고 적어도 됩니다.
+최소 통과 기준: 관찰된 출력과 원인 추정을 분리할 것. 경제 사건을 실제로 조사하지 않았다면 사건이 오차를 “유발했다”고 단정하지 않을 것.
+
+2020-05-01 이 제일크고 타겟은 그 다음달은 20년 6월이겠지. 또한 signed 가 양수니깐 과소예측이겠지. 
+
+T5. 데이터 가용성 한계
+이 CSV의 observation_date가 reference date이며 실제 release date라고 단정할 수 없는 이유를 설명하세요.
+historical vintage가 없을 때 이번 backtest가 실시간 예측을 완전히 재현하지 못하는 이유를 설명하세요.
+최소 통과 기준: publication lag와 revision leakage를 서로 다른 위험으로 구분할 것.
+
+공시일과 실제 데이터 관측일이 다르기 때문. 3월 데이터가 4월에 나올 수 있기 때문.
+공시 지연과 미래 데이터 학습은 다른 문제이다. 따라서 historical vintage가 없을 때는 수정된 것일 수도 있기 때문에 단정할 수 없게된다. 

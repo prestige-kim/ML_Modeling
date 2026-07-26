@@ -251,3 +251,64 @@
 - 공정한 model-family comparison은 모델 외의 feature, 분할, target, 평가 행과 metric을 고정해야 한다.
 - 이번 validation에서는 단순한 LinearRegression이 RandomForest보다 크게 낮은 오차를 보였다. 복잡도보다 out-of-sample 증거를 기준으로 모델을 선택해야 한다.
 - 모델 선택이 끝나기 전에는 잠긴 test를 보지 않아야 최종 평가의 독립성을 유지할 수 있다.
+
+## Model Experiment 2 - Boosting comparison and focused test error analysis
+
+완료 상태: 통과
+
+사용 데이터셋: `data/week4_korea_cli.csv`
+
+답안:
+
+- `answers/code/week4/week4_4.ipynb`
+- `answers/text/week4/week4_4.txt`
+
+실습 목표:
+
+- Feature set B와 기존 train/validation 분할을 고정하고 `GradientBoostingRegressor`를 추가한다.
+- Persistence baseline, LinearRegression, RandomForest와 boosting을 공통 validation 60행에서 비교한다.
+- Validation으로 최종 ML 후보를 선택한 뒤 train+validation으로 재학습하고 잠긴 test를 한 번 평가한다.
+- Test에서 오차가 큰 시점의 feature date, target month와 오차 방향을 확인한다.
+
+배운 개념:
+
+- Boosting은 앞선 작은 tree가 남긴 오류를 다음 tree가 순차적으로 보완하지만, 복잡한 모델이라는 이유만으로 validation 성능이 자동으로 좋아지지는 않는다.
+- 공통 validation MAE/RMSE는 LinearRegression 약 0.0108/0.0137, baseline 약 0.0798/0.0935, GradientBoosting 약 0.1420/0.1812, RandomForest 약 0.1947/0.2516이었다.
+- Validation 결과로 LinearRegression을 선택한 뒤 train+validation 240행으로 재학습했으며, 잠긴 test 59행에서 LinearRegression MAE/RMSE 약 0.0172/0.0211이 baseline 약 0.1942/0.2245보다 낮았다.
+- 최대 absolute error의 feature date는 2020-05, target month는 2020-06이었다. `target - prediction`으로 계산한 signed error가 양수이므로 과소예측이다.
+- 같은 예측 문제의 미래 행에는 선택한 모델을 사용할 수 있지만, 실제값이 축적되면 성능을 감시하고 새 시간 구간으로 재검증해야 한다. 다른 데이터셋이나 예측 문제에는 모델 선택 과정을 다시 수행해야 한다.
+- `observation_date`는 reference period를 나타낼 뿐 실제 release date와 같다고 단정할 수 없다. Historical vintage가 없으면 현재 CSV의 수정된 과거 값이 당시 최초 발표값과 다를 수 있어 완전한 실시간 backtest를 재현하기 어렵다.
+
+새로 사용한 클래스/메서드:
+
+- `GradientBoostingRegressor`
+  - 필요한 이유: 같은 feature와 분할에서 순차적 tree boosting이 기존 모델보다 out-of-sample 오차를 줄이는지 비교하기 위해 사용한다.
+  - 주요 인수: `n_estimators=100`, `learning_rate=0.05`, `max_depth=2`, `min_samples_leaf=5`, `random_state=42`를 사용했다.
+  - 반환값: 객체 생성 시 학습 전 estimator를 반환하고, `fit()` 후에는 학습 상태가 저장된 estimator가 된다. `predict()`는 입력 행 수와 같은 길이의 새 `numpy.ndarray`를 반환한다.
+  - 원본 변경 여부: `fit()`은 모델 객체 내부 상태를 변경하지만 입력 `DataFrame`과 target을 직접 변경하지 않는다.
+  - 재할당 필요 여부: estimator와 예측 배열은 이후 비교·평가에 사용하려면 변수에 저장해야 한다.
+- `DataFrame.nlargest(5, 'absolute_error')`
+  - 필요한 이유: test에서 절대오차가 가장 큰 5개 시점을 찾기 위해 사용한다.
+  - 주요 인수: 반환할 행 수 5와 정렬 기준 컬럼 `absolute_error`다.
+  - 반환값: 기준 컬럼 값이 큰 순서의 새 `DataFrame`을 반환한다.
+  - 원본 변경 여부: 원본 error-analysis 표를 변경하지 않는다.
+  - 재할당 필요 여부: 후속 방향 집계와 출력을 위해 `top5_errors`에 저장했다.
+
+재사용한 함수/메서드:
+
+- `shift()`, `rolling().mean()`, `diff()`와 `dropna(subset=[...])`로 leakage-safe feature set B와 공통 모델링 행을 재구성했다.
+- `LinearRegression`, `RandomForestRegressor`, `fit()`, `predict()`, MAE/RMSE 계산을 같은 validation 비교에 재사용했다.
+- `pd.concat()`으로 모델 선택이 끝난 train과 validation을 합쳐 최종 모델의 재학습 자료를 만들었다.
+
+수정된 실수:
+
+- 처음에는 과제에서 고정한 boosting 설정과 다른 tree 수·깊이를 사용했으나 지정 설정으로 수정했다.
+- Notebook 실행 순서가 뒤섞여 error analysis가 과거 변수에 의존할 가능성이 있었으나 kernel 재시작 후 전체 셀을 순서대로 실행해 교정했다.
+- 글 답안에서 validation 표를 test 결과로 붙였으나 실제 test MAE/RMSE로 수정했다.
+- 이미 notebook에 출력된 숫자를 글에 다시 복사하는 형식 자체를 학습 증거로 과도하게 요구하지 않고, 최대 오차의 feature date·target month·signed error 방향을 연결하는 모델링 이해로 평가 기준을 교정했다.
+
+핵심 정리:
+
+- 후보 모델은 validation으로 선택하고, test는 선택이 끝난 뒤 한 번 평가해야 독립적인 최종 성능 점검 역할을 유지한다.
+- 이번 데이터에서는 LinearRegression이 tree ensemble보다 validation과 test 모두에서 낮은 오차를 보였으므로 모델 복잡도보다 out-of-sample 증거가 중요했다.
+- Error analysis는 모델이 크게 틀린 시점과 방향을 찾을 수 있지만, 날짜와 오차만으로 경제적 원인을 단정할 수는 없다.
