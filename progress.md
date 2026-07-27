@@ -7,12 +7,12 @@
 | Field | Value |
 |---|---|
 | Start Date | 2026-07-09 |
-| Last Updated | 2026-07-26 |
-| Current Phase | Phase 3 - Feature Engineering |
-| Current Week | 4 |
-| Week Status | Completed |
-| Current Focus | Week 4 Model Experiment 2 완료: boosting 비교, validation 기반 최종 후보 선택, train+validation 재학습, 잠긴 test 평가와 focused error analysis를 마침 |
-| Next Session Goal | Week 5 승급 동의를 확인한 뒤, 적합한 월별 경제 데이터에서 trend·seasonality·stationarity를 진단하고 첫 ARIMA 후보를 설계한다. |
+| Last Updated | 2026-07-27 |
+| Current Phase | Phase 4/5 - Time-Series Foundations and Forecasting Models |
+| Current Week | 5 |
+| Week Status | In Progress |
+| Current Focus | Week 5 진입: 충분한 history와 계절 구조를 가진 월별 경제 데이터에서 trend·seasonality·stationarity를 진단하고 첫 ARIMA 후보를 설계함 |
+| Next Session Goal | 비계절조정 미국 월별 소매·외식 판매액 데이터의 시계열 구조를 진단하고 persistence baseline과 첫 ARIMA validation forecast를 비교한다. |
 
 ## Completed Evidence
 
@@ -176,6 +176,7 @@
 - Week 4 Model Experiment 1 추가 증거: Feature set B를 고정한 채 같은 train 180행과 validation 60행에서 persistence baseline, LinearRegression, RandomForest를 비교했다. Validation MAE/RMSE는 LinearRegression 0.0108/0.0137, baseline 0.0798/0.0935, RandomForest 0.1947/0.2516으로, 더 복잡한 tree ensemble이 자동으로 더 좋은 성능을 내지 않음을 확인했다. 잠긴 test를 반복 사용하면 모델 선택용 validation으로 변질된다는 점을 설명했다. Week 4의 남은 필수 증거는 boosting model 비교와 focused test-period error analysis다.
 - Week 4 Model Experiment 2 추가 증거: 같은 feature set B와 공통 validation 60행에서 GradientBoosting을 추가 비교했고, LinearRegression이 validation MAE/RMSE 0.0108/0.0137로 선택됐다. 선택 후 train+validation 240행으로 재학습하고 잠긴 test 59행을 한 번 평가해 LinearRegression 0.0172/0.0211이 persistence baseline 0.1942/0.2245보다 낮은 MAE/RMSE를 보임을 확인했다. 최대 오차의 feature date·target month와 과소예측 방향을 연결했으며, observation reference date와 실제 release date의 차이 및 historical revision 위험을 구분했다.
 - 현재 판단: Week 4의 feature ablation, transfer, RandomForest·boosting model-family 비교, validation 기반 선택, 잠긴 test 평가와 focused error analysis 증거가 모두 확보됐다. Week 4를 Completed로 기록하며, Week 5 승급은 사용자 동의 후 진행한다.
+- 승급 기록: 2026-07-27 사용자 동의로 Week 5에 진입했다. 첫 완료 증거는 충분한 history와 계절 구조가 있는 월별 경제 데이터에서 trend·seasonality·stationarity 진단을 ARIMA 차수 선택과 연결하고, persistence baseline과 공통 validation forecast를 비교하는 것이다.
 
 ## Recurring Mistakes
 
