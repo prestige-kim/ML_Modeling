@@ -120,8 +120,18 @@ def main() -> int:
         ".rules/tracking.md",
         "promptArchive/DailyStartPrompt.txt",
         "promptArchive/SessionReview.txt",
+        "scripts/test_prompt_routing.py",
     ]:
         require((SPARTA_ROOT / relative).is_file(), f"Sparta 필수 파일 없음: {relative}")
+
+    root_agents = read_text(REPO_ROOT / "AGENTS.md")
+    for phrase in [
+        "### 수업 시스템 구분",
+        "Sparta 수업 시작",
+        "머신러닝 부트캠프 수업 시작",
+        "어느 수업인지 짧게 확인",
+    ]:
+        require(phrase in root_agents, f"루트 AGENTS 라우팅 계약 누락: {phrase}")
 
     academy_progress = read_text(SPARTA_ROOT / "progress.md")
     active_slug = table_value(academy_progress, "Active Competition")
