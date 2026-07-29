@@ -1,0 +1,9 @@
+Sparta의 현재 Kaggle Lesson 답안을 리뷰한다.
+
+1. `Sparta/AGENTS.md`와 `.rules/review.md`를 따른다.
+2. 지정 경로가 없으면 Active Competition의 Current Lesson 답안을 찾는다.
+3. 코드와 글을 Lesson notebook의 C/T 문항에만 대응시킨다.
+4. 사전에 없는 요구사항은 추가 개선 제안으로 분리한다.
+5. 미통과 시 `Needs Revision`으로 기록하고 Hint부터 제공한다.
+6. 통과 시에만 `.rules/tracking.md`에 따라 대회별·Sparta 상위 상태를 갱신한다.
+7. 학습자 답안은 명시적인 수정 요청이 없으면 변경하지 않는다.

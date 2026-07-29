@@ -3,3 +3,5 @@
 .ipynb_checkpoints/
 __pycache__/
 *.py[cod]
+Sparta/bike.ipynb
+Sparta/temp.ipynb

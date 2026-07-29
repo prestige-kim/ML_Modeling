@@ -7,12 +7,12 @@
 | Field | Value |
 |---|---|
 | Start Date | 2026-07-09 |
-| Last Updated | 2026-07-27 |
+| Last Updated | 2026-07-29 |
 | Current Phase | Phase 4/5 - Time-Series Foundations and Forecasting Models |
 | Current Week | 5 |
 | Week Status | In Progress |
-| Current Focus | Week 5 진입: 충분한 history와 계절 구조를 가진 월별 경제 데이터에서 trend·seasonality·stationarity를 진단하고 첫 ARIMA 후보를 설계함 |
-| Next Session Goal | 비계절조정 미국 월별 소매·외식 판매액 데이터의 시계열 구조를 진단하고 persistence baseline과 첫 ARIMA validation forecast를 비교한다. |
+| Current Focus | Week 5 ARIMA 과정은 완료 처리 없이 보류하고, 독립 `Sparta/` Kaggle Academy의 Bike Sharing Demand 과정에서 피처 엔지니어링 기초를 보강함 |
+| Next Session Goal | Sparta Lesson 1에서 한 행·feature·target·prediction time을 정의하고 안전한 원본 feature와 시간 파생 feature를 공통 expanding validation으로 비교한다. |
 
 ## Completed Evidence
 
@@ -161,6 +161,7 @@
 4. 새로운 기간의 실제값이 축적될 때 성능을 모니터링하고, 기존 test를 반복 선택에 쓰지 않는 재학습 전략을 익힌다.
 5. Week 5에서는 trend·seasonality·stationarity 진단을 ARIMA/SARIMA 모델 선택과 연결한다.
 6. 이후 글 답안이 필요한 Exercise는 모델링 이해를 새로 증명하는 질문만 필수 통과 기준으로 사용한다.
+7. 독립 `Sparta/` Kaggle Academy의 Bike Sharing Demand 4회 과정을 진행하되, 상세 진도는 `Sparta/progress.md`와 대회별 progress에서 관리하고 완료 결과는 Week 5 ARIMA/SARIMA 승급 증거와 구분한다.
 
 ## Week Advancement Evidence
 
